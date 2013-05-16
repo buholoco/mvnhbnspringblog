@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "POST")
-public class Post {
+public class Post implements Timestampable {
 
 	@Id
 	@GeneratedValue

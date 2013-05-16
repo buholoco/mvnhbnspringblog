@@ -6,7 +6,8 @@ import ar.com.buho.blog.model.Post;
 
 public interface PostDAO {
 
-	public void addPost(Post post);
+	public Post getPost(int id);
+	public void savePost(Post post);
 	public List<Post> listPost();
-	public void removePost(Integer id);
+	public void removePost(int id);
 }

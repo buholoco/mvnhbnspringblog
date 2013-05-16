@@ -15,8 +15,8 @@ public class PostDAOImpl implements PostDAO {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public void addPost(Post post) {
-		sessionFactory.getCurrentSession().save(post);
+	public void savePost(Post post) {
+		sessionFactory.getCurrentSession().saveOrUpdate(post);
 	}
 
 	@Override
@@ -25,9 +25,16 @@ public class PostDAOImpl implements PostDAO {
 	}
 
 	@Override
-	public void removePost(Integer id) {
-		sessionFactory.getCurrentSession().delete(id);
+	public void removePost(int id) {
+		Post post = (Post) sessionFactory.getCurrentSession().get(Post.class, id);
+		sessionFactory.getCurrentSession().delete(post);
 
 	}
+
+	@Override
+	public Post getPost(int id) {
+		return (Post) sessionFactory.getCurrentSession().get(Post.class, id);
+	}
+
 
 }

@@ -17,8 +17,8 @@ public class PostServiceImpl implements PostService {
 	
 	@Transactional
 	@Override
-	public void addPost(Post post) {
-		postDAO.addPost(post);
+	public void savePost(Post post) {
+		postDAO.savePost(post);
 		
 	}
 
@@ -30,9 +30,15 @@ public class PostServiceImpl implements PostService {
 
 	@Transactional
 	@Override
-	public void removePost(Integer id) {
+	public void removePost(int id) {
 		postDAO.removePost(id);
 		
+	}
+
+	@Transactional
+	@Override
+	public Post getPost(int id) {
+		return postDAO.getPost(id);
 	}
 
 }
