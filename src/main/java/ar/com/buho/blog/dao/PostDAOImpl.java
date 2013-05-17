@@ -15,26 +15,26 @@ public class PostDAOImpl implements PostDAO {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public void savePost(Post post) {
+	public Post findById(int id) {
+		return (Post) sessionFactory.getCurrentSession().get(Post.class, id);
+	}
+	
+	@Override
+	public void save(Post post) {
 		sessionFactory.getCurrentSession().saveOrUpdate(post);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Post> listPost() {
-		return (List<Post>) sessionFactory.getCurrentSession().createQuery("from Post").list();
+	public List<Post> findPosts() {
+		return (List<Post>) sessionFactory.getCurrentSession().createQuery("from Post p order by p.created DESC").list();
 	}
 
 	@Override
-	public void removePost(int id) {
-		Post post = (Post) sessionFactory.getCurrentSession().get(Post.class, id);
+	public void remove(int id) {
+		Post post = findById(id);
 		sessionFactory.getCurrentSession().delete(post);
 
 	}
-
-	@Override
-	public Post getPost(int id) {
-		return (Post) sessionFactory.getCurrentSession().get(Post.class, id);
-	}
-
 
 }

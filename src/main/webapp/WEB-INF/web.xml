@@ -16,6 +16,12 @@
         <servlet-name>context</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    
+    
+    
+    <listener>
+        <listener-class>org.apache.tiles.web.startup.TilesListener</listener-class>
+    </listener>
     <!-- used so we can use forms of method type 'PUT' and 'DELETE' (such as in the Pet form)
 see here: http://static.springsource.org/spring/docs/current/spring-framework-reference/html/view.html#rest-method-conversion
 -->
