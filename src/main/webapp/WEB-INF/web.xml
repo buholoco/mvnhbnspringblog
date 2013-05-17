@@ -4,16 +4,25 @@
     xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     id="WebApp_ID" version="2.5">
+    
     <display-name>Blog</display-name>
+    
+    
+    
     <servlet>
-        <servlet-name>context</servlet-name>
+        <servlet-name>blog</servlet-name>
         <servlet-class>
             org.springframework.web.servlet.DispatcherServlet
         </servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/context-servlet.xml</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
-        <servlet-name>context</servlet-name>
+        <servlet-name>blog</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     
