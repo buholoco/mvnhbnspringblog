@@ -19,9 +19,9 @@
 			<p>
 				<small>Showing ${fn:length(postList) } posts</small>
 			</p>
-			<c:forEach items="${postList}" var="aPost">
-			    <tiles:putAttribute name="post" value="${aPost }" cascade="true" />
-				<tiles:insertAttribute name="post-show" />
+			<c:forEach items="${postList}" var="post" >
+			    <tiles:putAttribute name="post" value="${post }" cascade="true" />
+                <tiles:insertAttribute name="_post" />
 			</c:forEach>
 		</c:if>
 	</section>

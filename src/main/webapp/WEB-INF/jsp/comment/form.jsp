@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 
-<form:form method="post" action="/blog/${post.id }/comment/add" commandName="comment">
+<form:form method="post" action="/blog/post/${post.id }/comment/add" commandName="comment">
 	<form:label path="title">Title</form:label>
 	<form:input path="title" placeholder="Enter title.." class="input-block-level" />
 	<form:errors path="title" class="text-error" />

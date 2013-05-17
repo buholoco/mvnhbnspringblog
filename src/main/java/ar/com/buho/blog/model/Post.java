@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +39,7 @@ public class Post implements Timestampable {
 	@Column(name = "POST_UPDATED")
 	private Date updated;
 	
-	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<Comment> comments = new ArrayList<Comment>();
 
 	public long getId() {

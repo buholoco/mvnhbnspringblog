@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
 import ar.com.buho.blog.model.Timestampable;
 
 public class EntityInterceptor extends EmptyInterceptor {
+	
+	protected static Logger logger = Logger.getLogger("interceptor");
 
 	/**
 	 * 
@@ -19,6 +22,7 @@ public class EntityInterceptor extends EmptyInterceptor {
 	@Override
 	public boolean onSave(Object entity, Serializable id, Object[] currentState,
 			String[] propertyNames, Type[] types) {
+		logger.debug("Intercept onSave Timestampable object");
 		
 		if ((entity instanceof Timestampable)) {
 			int createdIndex = (Arrays.asList(propertyNames).indexOf("created"));
@@ -38,6 +42,8 @@ public class EntityInterceptor extends EmptyInterceptor {
 	public boolean onFlushDirty(Object entity, Serializable id,
 			Object[] currentState, Object[] previousState,
 			String[] propertyNames, Type[] types) {
+		logger.debug("Intercept onFlushDirty Timestampable object");
+		
 		if ((entity instanceof Timestampable)) {
 			
 			for (int i = 0; i < propertyNames.length; i++) {

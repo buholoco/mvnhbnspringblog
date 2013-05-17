@@ -12,7 +12,7 @@ public interface BlogService {
 	public List<Post> findPosts();
 	public void removePost(int id);
 	public Comment findCommentbyId(int id);
-	public void saveComment(Comment comment);
+	public void saveComment(Comment comment, Integer postId);
 	public List<Comment> findComments();
 	public void removeComment(int id);
 

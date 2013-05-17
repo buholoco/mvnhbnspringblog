@@ -5,8 +5,12 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
-<tiles:importAttribute/>
 
-<tiles:insertAttribute name="_post" />
-
-<tiles:insertAttribute name="comments-list" />
+<div id="sigle-comment">
+    <h6>${comment.title }</h6>
+    <p>${comment.content }</p>
+    <div class="muted">
+        | created:
+        <fmt:formatDate type="date" value="${comment.created }" />
+    </div>
+</div>

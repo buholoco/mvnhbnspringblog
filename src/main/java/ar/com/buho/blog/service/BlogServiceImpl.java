@@ -54,8 +54,8 @@ public class BlogServiceImpl implements BlogService {
 
 	@Transactional
 	@Override
-	public void saveComment(Comment comment) {
-		commentDAO.save(comment);
+	public void saveComment(Comment comment, Integer postId) {
+		commentDAO.save(comment, postId);
 	}
 
 	@Transactional(readOnly = true)

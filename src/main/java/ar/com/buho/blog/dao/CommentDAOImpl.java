@@ -2,11 +2,13 @@ package ar.com.buho.blog.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.com.buho.blog.model.Comment;
+import ar.com.buho.blog.model.Post;
 
 @Repository
 public class CommentDAOImpl implements CommentDAO {
@@ -20,8 +22,16 @@ public class CommentDAOImpl implements CommentDAO {
 	}
 
 	@Override
-	public void save(Comment comment) {
-		sessionFactory.getCurrentSession().saveOrUpdate(comment);
+	public void save(Comment comment, Integer postId) {
+		Post post = (Post) sessionFactory.getCurrentSession().get(Post.class, postId);
+		
+		comment.setPost(post);
+		
+		sessionFactory.getCurrentSession().save(comment);
+		
+		post.getComments().add(comment);
+		
+		sessionFactory.getCurrentSession().saveOrUpdate(post);
 
 	}
 
