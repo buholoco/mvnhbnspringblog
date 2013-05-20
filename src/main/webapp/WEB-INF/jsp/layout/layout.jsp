@@ -75,7 +75,7 @@ body {
 						      <a href="<c:url value="j_spring_security_logout" />">Logout</a>
 							</c:when>
 							<c:otherwise>
-								<a href="<c:url value="j_spring_security_login" />">Login</a>
+								<a href="<c:url value="/login" />">Login</a>
 							</c:otherwise>
 						</c:choose>
 					</p>

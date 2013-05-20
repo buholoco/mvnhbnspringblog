@@ -13,4 +13,5 @@
         | created:
         <fmt:formatDate type="date" value="${comment.created }" />
     </div>
+    <hr />
 </div>

@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:if test="${!empty error}">
-	<div class="errorblock">
+	<div class="text-error">
 		Your login attempt was not successful, try again.
 	</div>
 </c:if>

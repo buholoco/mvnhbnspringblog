@@ -40,7 +40,7 @@
 	   <put-attribute name="body">
 	       <definition template="/WEB-INF/jsp/post/show.jsp">
 	           <put-attribute name="_post" value="/WEB-INF/jsp/post/_post.jsp" />
-	           <put-attribute name="comments-list" value="/WEB-INF/jsp/comment/list.jsp" />  
+	           <put-attribute name="comments-list" value="/WEB-INF/jsp/comment/list.jsp" />
 	       </definition>
 		</put-attribute>
 	</definition>
