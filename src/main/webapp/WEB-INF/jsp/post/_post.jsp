@@ -19,7 +19,6 @@
 	            | <a href="<c:url value="/post/edit/${post.id }" />">Edit</a> 
 	            | <a href="<c:url value="/post/delete/${post.id }" />">Delete</a> 
 	        </sec:authorize>
-	        | <a href="<c:url value="/post/${post.id }/comment/add" />">Comment!</a>
 	        <hr/>
         </div>
     </div>
