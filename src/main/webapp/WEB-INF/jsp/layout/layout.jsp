@@ -56,7 +56,7 @@ body {
 </head>
 
 <body>
-<tiles:importAttribute/>
+	<tiles:importAttribute />
 
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
@@ -69,7 +69,15 @@ body {
 				<a class="brand" href="<c:url value="/" />">Blog</a>
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
-						Logged in as <a href="#" class="navbar-link">Username</a>
+						<c:choose>
+							<c:when test="${!empty username }">
+						  Logged in as <a href="#" class="navbar-link">${username }</a> | 
+						      <a href="<c:url value="j_spring_security_logout" />">Logout</a>
+							</c:when>
+							<c:otherwise>
+								<a href="<c:url value="j_spring_security_login" />">Login</a>
+							</c:otherwise>
+						</c:choose>
 					</p>
 					<ul class="nav">
 						<li class="active"><a href="<c:url value="/"/>">Home</a></li>
@@ -96,7 +104,7 @@ body {
 			<div class="span9">
 				<div class="row-fluid">
 					<h1>${title }</h1>
-					<hr/>
+					<hr />
 				</div>
 				<div class="row-fluid">
 					<tiles:insertAttribute name="body" />

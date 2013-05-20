@@ -49,4 +49,8 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/comment/form.jsp" />
 	</definition>
 	
+	<definition name="login" extends="baseLayout">
+        <put-attribute name="body" value="/WEB-INF/jsp/login/form.jsp" />
+    </definition>
+	
 </tiles-definitions>

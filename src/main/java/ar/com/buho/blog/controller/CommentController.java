@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.com.buho.blog.model.Comment;
-import ar.com.buho.blog.model.Post;
 import ar.com.buho.blog.service.BlogService;
 
 @Controller
 @RequestMapping("/post/{id}")
-@SessionAttributes("comment")
 public class CommentController {
 	
 	protected static Logger logger = Logger.getLogger("controller");
@@ -30,8 +28,9 @@ public class CommentController {
 	
 	@RequestMapping(value = "/comment/add", method = RequestMethod.GET)
 	public String addComment(@PathVariable("id") Integer id, Model model) {
-		logger.debug("Received request to get show comment-add");
+		logger.debug("Received request to get comment-add");
 		
+		model.addAttribute("post", blogService.findPostById(id));
 		model.addAttribute("title", "Add comment");
 		model.addAttribute("comment", new Comment());
 		
