@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <tiles:useAttribute name="post" ignore="true"/>
 <article id="post-${post.id }">
@@ -20,6 +20,7 @@
 	            | <a href="<c:url value="/post/delete/${post.id }" />">Delete</a> 
 	        </sec:authorize>
 	        | <a href="<c:url value="/post/${post.id }/comment/add" />">Comment!</a>
+	        <hr/>
         </div>
     </div>
 </article>

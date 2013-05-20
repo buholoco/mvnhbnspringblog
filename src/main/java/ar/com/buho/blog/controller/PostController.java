@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ar.com.buho.blog.model.Comment;
 import ar.com.buho.blog.model.Post;
 import ar.com.buho.blog.service.BlogService;
 
@@ -50,6 +51,7 @@ public class PostController {
 
 		Post post = blogService.findPostById(id);
 		model.addAttribute("title", "Show " + post.getTitle());
+		model.addAttribute("newComment", new Comment());
 		model.addAttribute("post", post);
 
 		return "post-show";

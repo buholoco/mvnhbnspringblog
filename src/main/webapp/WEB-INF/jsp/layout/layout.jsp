@@ -3,6 +3,8 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 
 <!DOCTYPE html>
@@ -69,15 +71,18 @@ body {
 				<a class="brand" href="<c:url value="/" />">Blog</a>
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
-						<c:choose>
-							<c:when test="${!empty username }">
-						  Logged in as <a href="#" class="navbar-link">${username }</a> | 
+
+						<sec:authorize access="isAuthenticated()"> 
+						  Logged in as 
+						  <a href="#" class="navbar-link"> <sec:authentication
+									property="principal.username" />
+							</a> | 
 						      <a href="<c:url value="j_spring_security_logout" />">Logout</a>
-							</c:when>
-							<c:otherwise>
-								<a href="<c:url value="/login" />">Login</a>
-							</c:otherwise>
-						</c:choose>
+						</sec:authorize>
+						<sec:authorize access="isAnonymous()">
+							<a href="<c:url value="/login" />">Login</a>
+						</sec:authorize>
+
 					</p>
 					<ul class="nav">
 						<li class="active"><a href="<c:url value="/"/>">Home</a></li>
