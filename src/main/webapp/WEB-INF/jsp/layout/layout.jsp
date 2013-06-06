@@ -16,7 +16,11 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+
+<script type="text/javascript" src="<c:url value="/resources/prettify/prettify.js" />"></script>
+
 <!-- Styles -->
+
 <link href="<c:url value="/resources/css/bootstrap.css" />"
 	rel="stylesheet">
 <style type="text/css">
@@ -39,6 +43,15 @@ body {
 }
 </style>
 
+<!-- Include *at least* the core style and default theme -->
+<!-- <link -->
+<%-- 	href="<c:url value="/resources/css/syntaxHighlighter/shCore.css" />" --%>
+<!-- 	rel="stylesheet" type="text/css" /> -->
+<!-- <link -->
+<%-- 	href="<c:url value="/resources/css/syntaxHighlighter/shThemeDefault.css" />" --%>
+<!-- 	rel="stylesheet" type="text/css" /> -->
+
+
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="/resources/js/html5shiv.js"></script>
@@ -55,6 +68,8 @@ body {
 	href="<c:url value="/resources/ico/apple-touch-icon-57-precomposed.png"/>">
 <link rel="shortcut icon"
 	href="<c:url value="/resources/ico/favicon.png"/>">
+
+<link href="<c:url value="/resources/prettify/prettify.css" />" type="text/css" rel="stylesheet" />
 </head>
 
 <body>
@@ -113,6 +128,7 @@ body {
 				</div>
 				<div class="row-fluid">
 					<tiles:insertAttribute name="body" />
+					
 				</div>
 				<!--/row-->
 			</div>
@@ -124,6 +140,7 @@ body {
 
 		<footer>
 			<tiles:insertAttribute name="footer" />
+			
 		</footer>
 
 	</div>
@@ -136,5 +153,33 @@ body {
 	<script src="<c:url value="/resources/js/bootstrap.js"/>"></script>
 	<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 
+	<!-- Include required regex js files -->
+<!-- 	<script type="text/javascript" -->
+<%-- 		src="<c:url value="/resources/js/syntaxHighlighter/xregexp.js" />"></script> --%>
+
+	<!-- Include required JS files -->
+<!-- 	<script type="text/javascript" -->
+<%-- 		src="<c:url value="/resources/js/syntaxHighlighter/shCore.js" />"></script> --%>
+
+	<!--
+    At least one brush, here we choose JS. You need to include a brush for every 
+    language you want to highlight
+-->
+<!-- 	<script type="text/javascript" -->
+<%-- 		src="<c:url value="/resources/js/syntaxHighlighter/shBrushJava.js" />"></script> --%>
+<!-- 	<script type="text/javascript" -->
+<%-- 		src="<c:url value="/resources/js/syntaxHighlighter/shBrushJScript.js" />"></script> --%>
+
+
+
+	<!-- Finally, to actually run the highlighter, you need to include this JS on your page -->
+<!-- 	<script type="text/javascript"> SyntaxHighlighter.all() </script> -->
+<script>
+  !function ($) {
+    $(function(){
+      window.prettyPrint && prettyPrint()   
+    })
+  }(window.jQuery)
+</script>
 </body>
 </html>
