@@ -4,16 +4,21 @@ import java.util.List;
 
 import ar.com.buho.blog.model.Comment;
 import ar.com.buho.blog.model.Post;
+import ar.com.buho.blog.model.Tag;
 
 public interface BlogService {
 	
-	public Post findPostById(int id);
+	public Post findPostById(long id);
 	public void savePost(Post post);
+	public void updatePost(Post post);
 	public List<Post> findPosts();
-	public void removePost(int id);
-	public Comment findCommentbyId(int id);
-	public void saveComment(Comment comment, Integer postId);
+	public void removePost(long id);
+	public Comment findCommentbyId(long id);
+	public void saveComment(Comment comment, long postId);
 	public List<Comment> findComments();
-	public void removeComment(int id);
+	public void removeComment(long id);
+	public List<Tag> findTags();
+	public Tag findTagById(long id);
+	public Tag findTagByTitle(String title);
 
 }

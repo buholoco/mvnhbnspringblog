@@ -1,10 +1,12 @@
 package ar.com.buho.blog.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,11 +15,17 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "COMMENT")
-public class Comment implements Timestampable {
+public class Comment implements Timestampable, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6579106333838321149L;
+
 	@Id
-	@GeneratedValue
-	private Integer id;
+	@Column(name="ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	
 	@Column(name = "COMMENT_TITLE")
 	@Size(max = 50, message = "Title must be at least 5 characters long")
@@ -37,11 +45,11 @@ public class Comment implements Timestampable {
 	@JoinColumn(name = "POST_ID")
 	private Post post;
 	
-	public Integer getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -84,5 +92,14 @@ public class Comment implements Timestampable {
 	public void setUpdated(Date updated) {
 		this.updated = updated;
 	}
+
+	@Override
+	public String toString() {
+		return "Comment [id=" + id + ", title=" + title + ", content="
+				+ content + ", created=" + created + ", updated=" + updated
+				+ "]";
+	}
+	
+	
 
 }

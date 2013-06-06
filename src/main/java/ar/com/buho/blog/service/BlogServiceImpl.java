@@ -1,73 +1,111 @@
 package ar.com.buho.blog.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.com.buho.blog.dao.CommentDAO;
-import ar.com.buho.blog.dao.PostDAO;
+import ar.com.buho.blog.generic.dao.ICommentDAO;
+import ar.com.buho.blog.generic.dao.IPostDAO;
+import ar.com.buho.blog.generic.dao.ITagDAO;
 import ar.com.buho.blog.model.Comment;
 import ar.com.buho.blog.model.Post;
+import ar.com.buho.blog.model.Tag;
 
 @Service
 public class BlogServiceImpl implements BlogService {
 
 	@Autowired
-	private PostDAO postDAO;
+	private IPostDAO postDAO;
 	
 	@Autowired
-	private CommentDAO commentDAO;
+	private ICommentDAO commentDAO;
+	
+	@Autowired
+	private ITagDAO tagDAO;
 	
 	@Transactional(readOnly = true)
-	@Override
-	public Post findPostById(int id) {
+	public Post findPostById(long id) {
 		return postDAO.findById(id);
 	}
 	
 	@Transactional
-	@Override
 	public void savePost(Post post) {
-		postDAO.save(post);
-		
+		post = this.setTagsForPost(post);
+		postDAO.create(post);
+	}
+	
+	@Transactional
+	public void updatePost(Post post) {
+		post = this.setTagsForPost(post);
+		postDAO.update(post);
 	}
 
 	@Transactional(readOnly = true)
-	@Override
 	public List<Post> findPosts() {
-		return postDAO.findPosts();
+		return postDAO.findAll();
 	}
 
 	@Transactional
-	@Override
-	public void removePost(int id) {
-		postDAO.remove(id);
+	public void removePost(long id) {
+		postDAO.deleteById(id);
 		
 	}
 
 	@Transactional(readOnly = true)
-	@Override
-	public Comment findCommentbyId(int id) {
+	public Comment findCommentbyId(long id) {
 		return commentDAO.findById(id);
 	}
 
 	@Transactional
-	@Override
-	public void saveComment(Comment comment, Integer postId) {
-		commentDAO.save(comment, postId);
-	}
+	public void saveComment(Comment comment, long postId) {
+		Post post = postDAO.findById(postId);
+		comment.setPost(post);
+		commentDAO.create(comment);     		
+    }
 
 	@Transactional(readOnly = true)
-	@Override
 	public List<Comment> findComments() {
-		return (List<Comment>) commentDAO.findComments();
+		return commentDAO.findAll();
 	}
 	
 	@Transactional
-	@Override
-	public void removeComment(int id) {
-		commentDAO.remove(id);
+	public void removeComment(long id) {
+		commentDAO.deleteById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Tag> findTags() {
+		return tagDAO.findAll();
+	}
+	
+	@Transactional(readOnly = true)
+	public Tag findTagById(long id) {
+		return tagDAO.findById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public Tag findTagByTitle(String title) {
+		return tagDAO.findByTitle(title);
+	}
+	
+	private Post setTagsForPost(Post post) {
+		Set<Tag> tags = new HashSet<Tag>();
+		if (!post.getTags().isEmpty()) {
+			for(Tag tag : post.getTags()) {
+				Tag tag2 = findTagByTitle(tag.getTitle());
+				if (tag2 == null) {
+					tag2 = new Tag();
+					tag2.setTitle(tag.getTitle());
+				}
+				tags.add(tag2);
+			}
+		}
+		post.setTags(tags);
+		return post;
 	}
 
 }

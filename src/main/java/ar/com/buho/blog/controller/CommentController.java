@@ -1,5 +1,6 @@
 package ar.com.buho.blog.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -11,13 +12,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.com.buho.blog.model.Comment;
+import ar.com.buho.blog.model.Post;
 import ar.com.buho.blog.service.BlogService;
 
 @Controller
-@RequestMapping("/post/{id}")
+@RequestMapping("/post/{idPost}")
 public class CommentController {
 	
 	protected static Logger logger = Logger.getLogger("controller");
@@ -26,10 +30,10 @@ public class CommentController {
 	private BlogService blogService;
 	
 	@RequestMapping(value = "/comment/add", method = RequestMethod.GET)
-	public String addComment(@PathVariable("id") Integer id, Model model) {
+	public String addComment(@PathVariable("id") long postId, Model model) {
 		logger.debug("Received request to get comment-add");
 		
-		model.addAttribute("post", blogService.findPostById(id));
+		model.addAttribute(blogService.findPostById(postId));
 		model.addAttribute("title", "Add comment");
 		model.addAttribute("comment", new Comment());
 		
@@ -38,25 +42,23 @@ public class CommentController {
 	
 	@RequestMapping(value = "/comment/add", method = RequestMethod.POST)
 	public String processForm(
-			@ModelAttribute("comment") @Valid Comment comment, 
-			BindingResult result,
-			@PathVariable("id") Integer id,
-			RedirectAttributes redirectAttributes,
-			Model model) {
-		logger.debug("Received request post to add new comment");
+			@ModelAttribute("comment") @Valid Comment comment, BindingResult result, 
+			@PathVariable("idPost") long postId, RedirectAttributes redirectAttributes, 
+			Model model, SessionStatus status, HttpServletRequest request) {
+		logger.debug("Received request post to add new comment" + comment.toString());
 		
 		if (result.hasErrors()) {
 			model.addAttribute("title", "New/Edit Comment");
 			return "comment-add";
+		} else {
+			System.out.println(comment);
+			blogService.saveComment(comment, postId);
+			
+			status.setComplete();
+			request.getSession().removeAttribute("postList");
+			redirectAttributes.addFlashAttribute("success","Comment saved!");
+			return "redirect:/";
 		}
-		blogService.saveComment(comment, id);
-		
-//		post.getComments().add(comment);
-//		blogService.savePost(post);
-		
-		
-		redirectAttributes.addFlashAttribute("success","Comment saved!");
-		return "redirect:/";
 	}
 
 	

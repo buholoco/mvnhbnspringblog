@@ -1,58 +1,87 @@
 package ar.com.buho.blog.controller;
 
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.com.buho.blog.model.Comment;
 import ar.com.buho.blog.model.Post;
+import ar.com.buho.blog.model.Tag;
+import ar.com.buho.blog.propertyeditors.CommaDelimitedStringEditor;
 import ar.com.buho.blog.service.BlogService;
 
 @Controller
+@SessionAttributes("post")
 public class PostController {
 
 	protected static Logger logger = Logger.getLogger("controller");
 
 	@Autowired
 	private BlogService blogService;
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+	    binder.registerCustomEditor(Set.class, "tags", new CommaDelimitedStringEditor());
+	}
 
 	@RequestMapping("/")
-	public String listContacts(Model model) {
+	public String listPosts(HttpServletRequest request, Model model) {
 		logger.debug("Received request to get /");
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			String name = auth.getName();
+		String page = request.getParameter("page");
+
+		if (request.getSession().getAttribute("postList") == null) {
+			PagedListHolder<Post> postList = new PagedListHolder<Post>(
+					blogService.findPosts(), new MutableSortDefinition("created", true, false));
+			postList.resort();
+			postList.setPageSize(2);
 			
-			model.addAttribute("username", name);
+			request.getSession().setAttribute("postList", postList);
+		}
+
+		PagedListHolder<Post> postList = (PagedListHolder<Post>) request
+				.getSession().getAttribute("postList");
+		
+		if ("previous".equals(page)) {
+			postList.previousPage();
+		}
+		if ("next".equals(page)) {
+			postList.nextPage();
 		}
 		
+		
 		model.addAttribute("title", "Recent posts");
-		model.addAttribute("postList", blogService.findPosts());
+		model.addAttribute("postList", postList);
 
 		return "index";
 	}
 
 	@RequestMapping("/post/show/{id}")
-	public String showPost(@PathVariable Integer id, Model model) {
+	public String showPost(@PathVariable long id, Model model) {
 		logger.debug("Received request to show post");
 
 		Post post = blogService.findPostById(id);
 		model.addAttribute("title", "Show " + post.getTitle());
 		model.addAttribute("newComment", new Comment());
-		model.addAttribute("post", post);
+		model.addAttribute(post);
 
 		return "post-show";
 	}
@@ -62,44 +91,53 @@ public class PostController {
 		logger.debug("Received request to get post-add");
 
 		model.addAttribute("title", "New Post");
-		model.addAttribute("post", new Post());
+		model.addAttribute(new Post());
 
 		return "post-add";
 	}
 
-	@RequestMapping(value = "/post/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/post/add/", method = RequestMethod.POST)
 	public String processForm(@ModelAttribute("post") @Valid Post post,
 			BindingResult result, RedirectAttributes redirectAttributes,
-			Model model) {
-		logger.debug("Received request to post post-add");
+			Model model, SessionStatus status, HttpServletRequest request) {
+		logger.debug("Received request to post post-add" + post);
 
 		if (result.hasErrors()) {
 			model.addAttribute("title", "New/Edit Post");
 			return "post-add";
+		} else {
+			if (post.getId() > 0) {
+				blogService.updatePost(post);
+			} else {
+				blogService.savePost(post);
+			}
+			request.getSession().removeAttribute("postList");
+			status.setComplete();
+			redirectAttributes.addFlashAttribute("success", "Post saved!");
+	
+			return "redirect:/";
 		}
-
-		blogService.savePost(post);
-		redirectAttributes.addFlashAttribute("success", "Post saved!");
-
-		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/post/edit/{id}", method = RequestMethod.GET)
-	public String editPost(Model model, @PathVariable Integer id) {
+	public String editPost(Model model, @PathVariable long id) {
 		logger.debug("Received request to get edit-post");
 
 		model.addAttribute("title", "Edit Post");
 		Post post = blogService.findPostById(id);
-		model.addAttribute("post", post);
+		model.addAttribute(post);
 
 		return "post-add";
 	}
 
 	@RequestMapping(value = "/post/delete/{id}", method = RequestMethod.GET)
-	public String deletePost(Model model, @PathVariable Integer id) {
+	public String deletePost(Model model, @PathVariable long id, 
+			SessionStatus status, HttpServletRequest request) {
 		logger.debug("Received request to delete post");
 
 		blogService.removePost(id);
+		request.getSession().removeAttribute("postList");
+		status.setComplete();
 
 		return "redirect:/";
 	}

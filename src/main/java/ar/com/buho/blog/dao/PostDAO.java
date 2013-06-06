@@ -8,6 +8,7 @@ public interface PostDAO {
 
 	public Post findById(int id);
 	public void save(Post post);
+	public void update(Post post);
 	public List<Post> findPosts();
 	public void remove(int id);
 }

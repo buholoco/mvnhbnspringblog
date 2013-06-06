@@ -10,8 +10,8 @@
 	<p>${comment.content }</p>
 	<div class="muted">
 		| created:
-		<fmt:formatDate type="date" value="${comment.created }" />
+		<fmt:formatDate type="both" pattern="HH:mm, dd-MM" value="${comment.created }" />
 		| updated:
-		<fmt:formatDate type="date" value="${comment.updated }" />
+		<fmt:formatDate type="both" pattern="HH:mm, dd-MM" value="${comment.updated }" />
 	</div>
 </div>

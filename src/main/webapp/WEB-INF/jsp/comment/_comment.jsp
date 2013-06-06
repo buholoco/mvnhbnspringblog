@@ -11,7 +11,7 @@
     <p>${comment.content }</p>
     <div class="muted">
         | created:
-        <fmt:formatDate type="date" value="${comment.created }" />
+        <fmt:formatDate type="date" pattern="HH:mm, dd-MM" value="${comment.created }" />
     </div>
     <hr />
 </div>

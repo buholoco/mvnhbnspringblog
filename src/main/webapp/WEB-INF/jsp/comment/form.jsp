@@ -15,6 +15,5 @@
 
     <br/>
 	<input type="submit" value="Add Comment" class="btn" />
-
-
 </form:form>
+id = ${comment.id }

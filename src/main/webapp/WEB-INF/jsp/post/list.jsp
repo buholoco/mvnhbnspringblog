@@ -15,14 +15,15 @@
 	</c:if>
 
 	<section>
-		<c:if test="${!empty postList}">
+		<c:if test="${!empty postList.getPageList() }">
 			<p>
-				<small>Showing ${fn:length(postList) } posts</small>
+				<small>Showing page ${postList.page + 1 } of ${postList.pageCount }</small>
 			</p>
-			<c:forEach items="${postList}" var="post" >
+			<c:forEach items="${postList.pageList }" var="post" >
 			    <tiles:putAttribute name="post" value="${post }" cascade="true" />
                 <tiles:insertAttribute name="_post" />
 			</c:forEach>
+			<c:if test="${!postList.lastPage }"><a href="?page=next">&lt; ${postList.page + 2 }</a></c:if> ${postList.page + 1 } <c:if test="${!postList.firstPage }"><a href="?page=previous">${postList.page } &gt;</a></c:if>
 		</c:if>
 	</section>
 </div>

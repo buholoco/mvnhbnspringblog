@@ -1,5 +1,6 @@
 package ar.com.buho.blog.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -10,8 +11,13 @@ import ar.com.buho.blog.model.Comment;
 import ar.com.buho.blog.model.Post;
 
 @Repository
-public class CommentDAOImpl implements CommentDAO {
+public class CommentDAOImpl implements CommentDAO, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1010404277298530237L;
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 	

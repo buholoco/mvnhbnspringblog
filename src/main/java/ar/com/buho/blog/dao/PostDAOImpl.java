@@ -23,11 +23,16 @@ public class PostDAOImpl implements PostDAO {
 	public void save(Post post) {
 		sessionFactory.getCurrentSession().saveOrUpdate(post);
 	}
+	
+	@Override
+	public void update(Post post) {
+		sessionFactory.getCurrentSession().update(post);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Post> findPosts() {
-		return (List<Post>) sessionFactory.getCurrentSession().createQuery("from Post p order by p.created DESC").list();
+		return (List<Post>) sessionFactory.getCurrentSession().createQuery("from Post").list();
 	}
 
 	@Override

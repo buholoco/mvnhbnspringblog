@@ -15,6 +15,11 @@
         </param-value>
     </context-param>
     
+    <context-param>
+	    <param-name>defaultHtmlEscape</param-name>
+	    <param-value>true</param-value>
+    </context-param>
+    
     <servlet>
         <servlet-name>blog</servlet-name>
         <servlet-class>
