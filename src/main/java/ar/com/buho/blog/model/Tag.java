@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +34,7 @@ public class Tag implements Serializable {
 	@NotBlank
 	private String title;
 	
-	@ManyToMany(mappedBy="tags")
+	@ManyToMany(mappedBy="tags", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private Set<Post> posts = new HashSet<Post>();
 
 	public long getId() {

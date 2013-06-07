@@ -1,5 +1,6 @@
 package ar.com.buho.blog.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +31,13 @@ public class BlogServiceImpl implements BlogService {
 	@Transactional(readOnly = true)
 	public Post findPostById(long id) {
 		return postDAO.findById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Post> findPostsByTagId(long id) {
+		List<Post> postList = new ArrayList<Post>();
+		postList.addAll(tagDAO.findById(id).getPosts());
+		return postList;
 	}
 	
 	@Transactional

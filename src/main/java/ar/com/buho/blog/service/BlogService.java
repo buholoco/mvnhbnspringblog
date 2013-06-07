@@ -9,6 +9,7 @@ import ar.com.buho.blog.model.Tag;
 public interface BlogService {
 	
 	public Post findPostById(long id);
+	public List<Post> findPostsByTagId(long id);
 	public void savePost(Post post);
 	public void updatePost(Post post);
 	public List<Post> findPosts();

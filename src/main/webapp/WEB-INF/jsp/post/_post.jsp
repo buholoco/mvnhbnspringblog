@@ -16,7 +16,7 @@
         <p>Tags:         
 	        <c:if test="${!empty post.tags }">
 	           <c:forEach items="${post.tags }" var="tag" >
-	               ${tag } 
+	               <a href="<c:url value="/tag/${tag.id }/" />">${tag.title }</a> 
 	            </c:forEach>
 	        </c:if>
         </p>

@@ -23,7 +23,7 @@
 			    <tiles:putAttribute name="post" value="${post }" cascade="true" />
                 <tiles:insertAttribute name="_post" />
 			</c:forEach>
-			<c:if test="${!postList.lastPage }"><a href="?page=next">&lt; ${postList.page + 2 }</a></c:if> ${postList.page + 1 } <c:if test="${!postList.firstPage }"><a href="?page=previous">${postList.page } &gt;</a></c:if>
+			<c:if test="${!postList.lastPage }"><a href="?page=next&cp=${postList.page}">&lt; ${postList.page + 2 }</a></c:if> ${postList.page + 1 } <c:if test="${!postList.firstPage }"><a href="?page=previous&cp=${postList.page}">${postList.page } &gt;</a></c:if>
 		</c:if>
 	</section>
 </div>
