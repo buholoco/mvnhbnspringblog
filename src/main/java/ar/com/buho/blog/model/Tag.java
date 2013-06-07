@@ -34,7 +34,7 @@ public class Tag implements Serializable {
 	@NotBlank
 	private String title;
 	
-	@ManyToMany(mappedBy="tags", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToMany(mappedBy="tags", fetch=FetchType.EAGER)
 	private Set<Post> posts = new HashSet<Post>();
 
 	public long getId() {
