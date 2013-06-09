@@ -24,6 +24,7 @@ public class CommaDelimitedStringEditor extends PropertyEditorSupport{
         setValue(tags);
     }
 	
+	@SuppressWarnings("unchecked")
 	public String getAsText() {
 		Set<Tag> tags = (Set<Tag>) getValue();
 		String rTags = new String();

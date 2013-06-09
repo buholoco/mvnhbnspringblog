@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.com.buho.blog.model.Comment;
-import ar.com.buho.blog.model.Post;
 import ar.com.buho.blog.service.BlogService;
 
 @Controller
@@ -29,7 +28,7 @@ public class CommentController {
 	@Autowired
 	private BlogService blogService;
 	
-	@RequestMapping(value = "/comment/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/comment/add.htm", method = RequestMethod.GET)
 	public String addComment(@PathVariable("id") long postId, Model model) {
 		logger.debug("Received request to get comment-add");
 		
@@ -40,7 +39,7 @@ public class CommentController {
 		return "comment-add";
 	}
 	
-	@RequestMapping(value = "/comment/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/comment/add.htm", method = RequestMethod.POST)
 	public String processForm(
 			@ModelAttribute("comment") @Valid Comment comment, BindingResult result, 
 			@PathVariable("idPost") long postId, RedirectAttributes redirectAttributes, 
@@ -51,7 +50,6 @@ public class CommentController {
 			model.addAttribute("title", "New/Edit Comment");
 			return "comment-add";
 		} else {
-			System.out.println(comment);
 			blogService.saveComment(comment, postId);
 			
 			status.setComplete();
@@ -59,6 +57,24 @@ public class CommentController {
 			redirectAttributes.addFlashAttribute("success","Comment saved!");
 			return "redirect:/";
 		}
+	}
+	
+	@RequestMapping(value = "/comment/add.ajax", method = RequestMethod.POST) 
+	public @ResponseBody String addComment(@ModelAttribute("comment") @Valid Comment comment, 
+			BindingResult result, @PathVariable("idPost") long postId, SessionStatus status,
+			HttpServletRequest request) {
+		logger.debug("Received request post to add new comment ajax" + comment.toString());
+		
+		String returnText;
+		if (result.hasErrors()) {
+			returnText = "An error has ocurred";
+		} else {
+			blogService.saveComment(comment, postId);
+			status.setComplete();
+			request.getSession().removeAttribute("postList");
+			returnText = "Comment saved";
+		}
+		return returnText;
 	}
 
 	

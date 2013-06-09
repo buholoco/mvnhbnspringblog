@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +19,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 @Entity
+//@FetchProfile(name = "posts-with-deps", fetchOverrides = {
+//		   @FetchProfile.FetchOverride(entity = Post.class, association = "comments", mode = FetchMode.JOIN),
+//		   @FetchProfile.FetchOverride(entity = Post.class, association = "tags", mode = FetchMode.JOIN)
+//		})
 @Table(name = "POST")
 public class Post implements Timestampable, Serializable {
 
@@ -50,10 +56,12 @@ public class Post implements Timestampable, Serializable {
 	@Column(name = "POST_UPDATED")
 	private Date updated;
 	
-	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference("post-comment")
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 	private Set<Comment> comments;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference("post-tag")
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		      name="POST_TAG",
 		      joinColumns={@JoinColumn(name="POST_ID", referencedColumnName="ID")},

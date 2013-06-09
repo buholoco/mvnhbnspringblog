@@ -17,7 +17,8 @@
 <meta name="author" content="">
 
 
-<script type="text/javascript" src="<c:url value="/resources/prettify/prettify.js" />"></script>
+
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.js"/>"></script>
 
 <!-- Styles -->
 
@@ -43,15 +44,6 @@ body {
 }
 </style>
 
-<!-- Include *at least* the core style and default theme -->
-<!-- <link -->
-<%-- 	href="<c:url value="/resources/css/syntaxHighlighter/shCore.css" />" --%>
-<!-- 	rel="stylesheet" type="text/css" /> -->
-<!-- <link -->
-<%-- 	href="<c:url value="/resources/css/syntaxHighlighter/shThemeDefault.css" />" --%>
-<!-- 	rel="stylesheet" type="text/css" /> -->
-
-
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="/resources/js/html5shiv.js"></script>
@@ -69,10 +61,10 @@ body {
 <link rel="shortcut icon"
 	href="<c:url value="/resources/ico/favicon.png"/>">
 
-<link href="<c:url value="/resources/prettify/prettify.css" />" type="text/css" rel="stylesheet" />
+<link href="<c:url value="/resources/prettify/prettify-desert.css" />" type="text/css" rel="stylesheet" />
 </head>
 
-<body>
+<body onload="prettyPrint()">
 	<tiles:importAttribute />
 
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -92,7 +84,7 @@ body {
 						  <a href="#" class="navbar-link"> <sec:authentication
 									property="principal.username" />
 							</a> | 
-						      <a href="<c:url value="j_spring_security_logout" />">Logout</a>
+						      <a href="<c:url value="/j_spring_security_logout" />">Logout</a>
 						</sec:authorize>
 						<sec:authorize access="isAnonymous()">
 							<a href="<c:url value="/login" />">Login</a>
@@ -113,11 +105,9 @@ body {
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span3">
-				<div class="well sidebar-nav">
-					<ul class="nav nav-list">
+				
 						<tiles:insertAttribute name="navigation" />
-					</ul>
-				</div>
+				
 				<!--/.well -->
 			</div>
 			<!--/span-->
@@ -149,37 +139,10 @@ body {
 	<!-- Javascripts
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="<c:url value="/resources/js/jquery.js"/>"></script>
-	<script src="<c:url value="/resources/js/bootstrap.js"/>"></script>
-	<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
-
-	<!-- Include required regex js files -->
-<!-- 	<script type="text/javascript" -->
-<%-- 		src="<c:url value="/resources/js/syntaxHighlighter/xregexp.js" />"></script> --%>
-
-	<!-- Include required JS files -->
-<!-- 	<script type="text/javascript" -->
-<%-- 		src="<c:url value="/resources/js/syntaxHighlighter/shCore.js" />"></script> --%>
-
-	<!--
-    At least one brush, here we choose JS. You need to include a brush for every 
-    language you want to highlight
--->
-<!-- 	<script type="text/javascript" -->
-<%-- 		src="<c:url value="/resources/js/syntaxHighlighter/shBrushJava.js" />"></script> --%>
-<!-- 	<script type="text/javascript" -->
-<%-- 		src="<c:url value="/resources/js/syntaxHighlighter/shBrushJScript.js" />"></script> --%>
-
-
-
-	<!-- Finally, to actually run the highlighter, you need to include this JS on your page -->
-<!-- 	<script type="text/javascript"> SyntaxHighlighter.all() </script> -->
-<script>
-  !function ($) {
-    $(function(){
-      window.prettyPrint && prettyPrint()   
-    })
-  }(window.jQuery)
-</script>
+	<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/resources/prettify/prettify.js" />"></script>
+    
+	
 </body>
 </html>

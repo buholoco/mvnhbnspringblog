@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -34,7 +35,8 @@ public class Tag implements Serializable {
 	@NotBlank
 	private String title;
 	
-	@ManyToMany(mappedBy="tags", fetch=FetchType.EAGER)
+	@JsonBackReference("post-tag")
+	@ManyToMany(mappedBy="tags")
 	private Set<Post> posts = new HashSet<Post>();
 
 	public long getId() {

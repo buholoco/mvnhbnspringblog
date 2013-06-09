@@ -11,7 +11,7 @@
 <tiles:useAttribute name="post" ignore="true"/>
 <article id="post-${post.id }">
     <div id="sigle-post">
-        <h4><a href="<c:url value="/post/show/${post.id }" />">${post.title }</a></h4>
+        <h4><a href="<c:url value="/post/${post.id }/show.htm" />">${post.title }</a></h4>
         <p>${post.content }</p>
         <p>Tags:         
 	        <c:if test="${!empty post.tags }">
@@ -22,12 +22,12 @@
         </p>
 
         <div class="muted">
-            | <a href="<c:url value="/post/show/${post.id }#comments" />">Comments ${fn:length(post.comments) } </a>
+            | <a href="<c:url value="/post/${post.id }/show.htm#comments" />">Comments ${fn:length(post.comments) } </a>
             | created: <fmt:formatDate type="date" pattern="HH:mm, dd-MM" value="${post.created }" />
             | updated: <fmt:formatDate type="date" pattern="HH:mm, dd-MM" value="${post.updated }" />
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-	            | <a href="<c:url value="/post/edit/${post.id }" />">Edit</a> 
-	            | <a href="<c:url value="/post/delete/${post.id }" />">Delete</a> 
+	            | <a href="<c:url value="/post/${post.id }/edit.htm" />">Edit</a> 
+	            | <a href="<c:url value="/post/${post.id }/delete.htm" />">Delete</a> 
 	        </sec:authorize>
 	        <hr/>
         </div>

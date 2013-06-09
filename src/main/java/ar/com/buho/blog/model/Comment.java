@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 @Entity
 @Table(name = "COMMENT")
 public class Comment implements Timestampable, Serializable {
@@ -41,6 +43,7 @@ public class Comment implements Timestampable, Serializable {
 	@Column(name = "COMMENT_UPDATED")
 	private Date updated;
 	
+	@JsonBackReference("post-comment")
 	@ManyToOne
 	@JoinColumn(name = "POST_ID")
 	private Post post;

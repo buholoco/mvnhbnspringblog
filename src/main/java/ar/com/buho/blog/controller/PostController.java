@@ -1,5 +1,6 @@
 package ar.com.buho.blog.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,24 +8,24 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.com.buho.blog.model.Comment;
 import ar.com.buho.blog.model.Post;
-import ar.com.buho.blog.model.Tag;
 import ar.com.buho.blog.propertyeditors.CommaDelimitedStringEditor;
 import ar.com.buho.blog.service.BlogService;
 
@@ -41,40 +42,32 @@ public class PostController {
 	public void initBinder(WebDataBinder binder) {
 	    binder.registerCustomEditor(Set.class, "tags", new CommaDelimitedStringEditor());
 	}
+	
+	@RequestMapping("post/{id}")
+	@ResponseBody
+	public Post getPostById(@PathVariable long id) {
+		logger.debug("Received request to get PostById (json)");
+		
+		return blogService.findPostById(id);
+	}
 
 	@RequestMapping("/")
 	public String listPosts(HttpServletRequest request, Model model) {
 		logger.debug("Received request to get /");
 
-		String page = request.getParameter("page");
+		List<Post> listPost = blogService.findPosts();
 
-		if (request.getSession().getAttribute("postList") == null) {
-			PagedListHolder<Post> postList = new PagedListHolder<Post>(
-					blogService.findPosts(), new MutableSortDefinition("created", true, false));
-			postList.resort();
-			postList.setPageSize(2);
-			
-			request.getSession().setAttribute("postList", postList);
-		}
-
-		PagedListHolder<Post> postList = (PagedListHolder<Post>) request
-				.getSession().getAttribute("postList");
-		
-		if ("previous".equals(page)) {
-			postList.previousPage();
-		}
-		if ("next".equals(page)) {
-			postList.nextPage();
-		}
-		
+		PagedListHolder<Post> pagedPostList = blogService.getPagedList(listPost, "created", false);
+		int page = ServletRequestUtils.getIntParameter(request, "p", 0);
+		pagedPostList.setPage(page);
 		
 		model.addAttribute("title", "Recent posts");
-		model.addAttribute("postList", postList);
+		model.addAttribute("postList", pagedPostList);
 
 		return "index";
 	}
 
-	@RequestMapping("/post/show/{id}")
+	@RequestMapping("/post/{id}/show.htm")
 	public String showPost(@PathVariable long id, Model model) {
 		logger.debug("Received request to show post");
 
@@ -86,7 +79,7 @@ public class PostController {
 		return "post-show";
 	}
 
-	@RequestMapping(value = "/post/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/post/add.htm", method = RequestMethod.GET)
 	public String addPost(Model model) {
 		logger.debug("Received request to get post-add");
 
@@ -96,7 +89,7 @@ public class PostController {
 		return "post-add";
 	}
 
-	@RequestMapping(value = "/post/add/", method = RequestMethod.POST)
+	@RequestMapping(value = "/post/add.htm", method = RequestMethod.POST)
 	public String processForm(@ModelAttribute("post") @Valid Post post,
 			BindingResult result, RedirectAttributes redirectAttributes,
 			Model model, SessionStatus status, HttpServletRequest request) {
@@ -119,7 +112,7 @@ public class PostController {
 		}
 	}
 
-	@RequestMapping(value = "/post/edit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/post/{id}/edit.htm", method = RequestMethod.GET)
 	public String editPost(Model model, @PathVariable long id) {
 		logger.debug("Received request to get edit-post");
 
@@ -130,7 +123,7 @@ public class PostController {
 		return "post-add";
 	}
 
-	@RequestMapping(value = "/post/delete/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/post/{id}/delete.htm", method = RequestMethod.GET)
 	public String deletePost(Model model, @PathVariable long id, 
 			SessionStatus status, HttpServletRequest request) {
 		logger.debug("Received request to delete post");

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -98,6 +100,14 @@ public class BlogServiceImpl implements BlogService {
 	@Transactional(readOnly = true)
 	public Tag findTagByTitle(String title) {
 		return tagDAO.findByTitle(title);
+	}
+	
+	public PagedListHolder<Post> getPagedList(List<Post> list, String orderBy, boolean order) {
+		PagedListHolder<Post> postList = new PagedListHolder<Post>(
+				list, new MutableSortDefinition(orderBy, true, order));
+		postList.resort();
+		postList.setPageSize(2);
+		return postList;
 	}
 	
 	private Post setTagsForPost(Post post) {

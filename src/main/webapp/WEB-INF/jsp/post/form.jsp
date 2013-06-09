@@ -4,7 +4,7 @@
 
 <spring:htmlEscape defaultHtmlEscape="true" /> 
 
-<form:form method="post" action="/blog/post/add/" commandName="post">
+<form:form method="post" action="/blog/post/add.htm" commandName="post">
     <form:hidden path="id"/>
 
     <form:label path="title">Title</form:label>

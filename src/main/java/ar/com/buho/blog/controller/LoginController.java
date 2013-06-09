@@ -11,7 +11,7 @@ public class LoginController {
 	
 	protected static Logger logger = Logger.getLogger("controller");
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login.htm", method = RequestMethod.GET)
 	public String doLogin(Model model) {
 		logger.debug("Received request to get /login");
 		
@@ -19,7 +19,7 @@ public class LoginController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
+	@RequestMapping(value = "/loginfailed.htm", method = RequestMethod.GET)
 	public String loginerror(Model model) {
 		logger.debug("Received request to get /loginfailed");
  
