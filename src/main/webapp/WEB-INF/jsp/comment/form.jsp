@@ -13,9 +13,31 @@
 			data : "title=" + title + "&content=" + content,
 			success : function(response) {
 				// we have the response
-				$('#info').html(response);
-				$('#title').val('');
-				$('#content').val('');
+				if(response.status == "SUCCESS"){
+					$('#info').html(response);
+					$('#title').val('');
+					$('#content').val('');
+					var today = new Date();
+					//var monthNames = [ "January", "February", "March", "April", "May", "June",
+					//                   "July", "August", "September", "October", "November", "December" ];
+					var day   = today.getDate();
+				    //var month = monthNames[today.getMonth()];
+				    var month = today.getMonth();
+					var newComment = '<div id="new-comment">';
+				        newComment += '<h6>' + response.result.title + '</h6>';
+				        newComment += '<p>' + response.result.content + '</p>';
+				        newComment += '<div class="muted">| created: a few seconds ago</div>';
+	                    newComment += '<hr /></div>';
+	                $('#comments').append(newComment);
+	                $('#new-comment').hide().fadeIn('slow');
+				}else{
+					errorInfo = "";
+					for(i =0 ; i < response.result.length ; i++){
+						errorInfo += "<br>" + (i + 1) +". " + response.result[i].defaultMessage;
+						$('#info').html("Please correct following errors: " + errorInfo);
+					}
+
+				}
 			},
 			error : function(e) {
 				alert('Error: ' + e);

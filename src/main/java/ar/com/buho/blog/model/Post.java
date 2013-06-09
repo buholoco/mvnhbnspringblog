@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -58,12 +59,13 @@ public class Post implements Timestampable, Serializable {
 	
 	@JsonManagedReference("post-comment")
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	@OrderBy("created")
 	private Set<Comment> comments;
 	
 	@JsonManagedReference("post-tag")
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
-		      name="POST_TAG",
+		      name="POST_TAG", 
 		      joinColumns={@JoinColumn(name="POST_ID", referencedColumnName="ID")},
 		      inverseJoinColumns={@JoinColumn(name="TAG_ID", referencedColumnName="ID")})
 	private Set<Tag> tags = new HashSet<Tag>();

@@ -1,6 +1,7 @@
 package ar.com.buho.blog.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.com.buho.blog.model.Comment;
 import ar.com.buho.blog.service.BlogService;
+import ar.com.buho.blog.service.JsonResponse;
 
 @Controller
 @RequestMapping("/post/{idPost}")
@@ -60,21 +62,24 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value = "/comment/add.ajax", method = RequestMethod.POST) 
-	public @ResponseBody String addComment(@ModelAttribute("comment") @Valid Comment comment, 
+	public @ResponseBody JsonResponse addComment(@ModelAttribute("comment") @Valid Comment comment, 
 			BindingResult result, @PathVariable("idPost") long postId, SessionStatus status,
-			HttpServletRequest request) {
+			HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("Received request post to add new comment ajax" + comment.toString());
 		
-		String returnText;
+		JsonResponse res = new JsonResponse();
+
 		if (result.hasErrors()) {
-			returnText = "An error has ocurred";
+			res.setStatus("FAIL");
+			res.setResult(result.getAllErrors());
 		} else {
 			blogService.saveComment(comment, postId);
 			status.setComplete();
 			request.getSession().removeAttribute("postList");
-			returnText = "Comment saved";
+			res.setStatus("SUCCESS");
+			res.setResult(comment);
 		}
-		return returnText;
+		return res;
 	}
 
 	

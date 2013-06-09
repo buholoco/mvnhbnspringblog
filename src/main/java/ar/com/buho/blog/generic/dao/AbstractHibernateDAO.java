@@ -1,10 +1,14 @@
 package ar.com.buho.blog.generic.dao;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings("unchecked")
@@ -23,8 +27,25 @@ public abstract class AbstractHibernateDAO<T extends Serializable> implements IO
 	}
 
 	public final List<T> findAll() {
-		return getCurrentSession().createQuery("from " + clazz.getName())
+		return getCurrentSession().createCriteria(clazz.getName())
 				.list();
+	}
+	
+	public final List<T> findAll(HashMap<String, String> options) {
+		Criteria criteria = getCurrentSession().createCriteria(clazz.getName());
+		
+		if (options.containsKey("orderBy")) {
+			criteria.addOrder(Order.desc(options.get("orderBy")));
+		}
+		
+		if (options.containsKey("maxResults")) {
+			criteria.setMaxResults(Integer.parseInt(options.get("maxResults")));
+		}
+		
+		if (options.containsKey("offset")) {
+			criteria.setFirstResult(Integer.parseInt(options.get("offset")));
+		}
+		return criteria.list();
 	}
 
 	public void create(T entity) {

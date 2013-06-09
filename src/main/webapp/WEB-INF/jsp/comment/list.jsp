@@ -16,7 +16,9 @@
 			<jsp:include page="_comment.jsp" />
         </c:forEach>
 	</c:if>
-	<c:set var="comment" value="${newComment }" scope="request" />
-	<jsp:include page="form.jsp" />
 	
+</div>
+<div id="newComment">
+    <c:set var="comment" value="${newComment }" scope="request" />
+    <jsp:include page="form.jsp" />
 </div>
