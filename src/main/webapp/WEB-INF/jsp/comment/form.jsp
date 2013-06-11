@@ -23,7 +23,7 @@
 					var day   = today.getDate();
 				    //var month = monthNames[today.getMonth()];
 				    var month = today.getMonth();
-					var newComment = '<div id="new-comment">';
+					var newComment = '<div id="comment-' + response.result.id + '">';
 				        newComment += '<h6>' + response.result.title + '</h6>';
 				        newComment += '<p>' + response.result.content + '</p>';
 				        newComment += '<div class="muted">| created: a few seconds ago</div>';

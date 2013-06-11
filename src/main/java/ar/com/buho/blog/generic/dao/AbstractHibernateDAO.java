@@ -3,7 +3,6 @@ package ar.com.buho.blog.generic.dao;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -15,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractHibernateDAO<T extends Serializable> implements IOperations<T>{
 	private Class<T> clazz;
 
-	@Autowired
+	@Autowired(required=true)
 	private SessionFactory sessionFactory;
 
 	protected final void setClazz(Class<T> clazzToSet) {

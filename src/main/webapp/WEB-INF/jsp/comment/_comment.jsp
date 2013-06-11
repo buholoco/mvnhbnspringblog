@@ -6,7 +6,7 @@
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 
-<div id="sigle-comment">
+<div id="comment-${comment.id }">
     <h6>${comment.title }</h6>
     <p>${comment.content }</p>
     <div class="muted">

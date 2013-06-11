@@ -16,8 +16,8 @@
 	<form:textarea path="content" class="input-block-level" />
 	<form:errors path="content" class="text-error" />
 
-    <form:label path="tags">Tags</form:label>
-    <form:input path="tags" class="input-block-level" />
+    <form:label path="tags" title="Comma separate values">Tags</form:label>
+    <form:input path="tags" title="Comma separate values" class="input-block-level" placeholder="Comma, Separate, Values" />
     <form:errors path="tags" class="text-error" />
     <br/>
 	<input type="submit" value="Add Post" class="btn" />

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,7 @@ public class PostController {
 
 	protected static Logger logger = Logger.getLogger("controller");
 
-	@Autowired
+	@Autowired(required=true)
 	private BlogService blogService;
 	
 	@InitBinder
@@ -104,7 +105,6 @@ public class PostController {
 			} else {
 				blogService.savePost(post);
 			}
-			request.getSession().removeAttribute("postList");
 			status.setComplete();
 			redirectAttributes.addFlashAttribute("success", "Post saved!");
 	
@@ -129,7 +129,6 @@ public class PostController {
 		logger.debug("Received request to delete post");
 
 		blogService.removePost(id);
-		request.getSession().removeAttribute("postList");
 		status.setComplete();
 
 		return "redirect:/";

@@ -11,7 +11,7 @@ import ar.com.buho.blog.model.Post;
 @Repository
 public class PostDAOImpl implements PostDAO {
 
-	@Autowired
+	@Autowired(required=true)
 	private SessionFactory sessionFactory;
 	
 	@Override

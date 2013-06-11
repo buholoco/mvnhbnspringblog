@@ -20,7 +20,6 @@ import ar.com.buho.blog.model.Tag;
 import ar.com.buho.blog.service.BlogService;
 
 @Controller
-@RequestMapping("/tag/{id}")
 public class TagController {
 
 	protected static Logger logger = Logger.getLogger("controller");
@@ -28,7 +27,7 @@ public class TagController {
 	@Autowired
 	private BlogService blogService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
 	public String show(@PathVariable("id") long tagId,
 			HttpServletRequest request, Model model) {
 		logger.debug("Received request to get tag show");
@@ -46,5 +45,12 @@ public class TagController {
 		model.addAttribute("title", "Showing post for tag " + tag.getTitle());
 
 		return "index";
+	}
+	
+	@RequestMapping(value="/listTags", method = RequestMethod.GET)
+	public String listTags(Model model) {
+		logger.debug("Received request to get listTopTag");
+		model.addAttribute("listTags", blogService.findTags());
+		return "listTags";
 	}
 }

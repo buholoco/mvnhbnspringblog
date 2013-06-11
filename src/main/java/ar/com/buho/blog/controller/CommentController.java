@@ -55,7 +55,6 @@ public class CommentController {
 			blogService.saveComment(comment, postId);
 			
 			status.setComplete();
-			request.getSession().removeAttribute("postList");
 			redirectAttributes.addFlashAttribute("success","Comment saved!");
 			return "redirect:/";
 		}
@@ -75,7 +74,6 @@ public class CommentController {
 		} else {
 			blogService.saveComment(comment, postId);
 			status.setComplete();
-			request.getSession().removeAttribute("postList");
 			res.setStatus("SUCCESS");
 			res.setResult(comment);
 		}

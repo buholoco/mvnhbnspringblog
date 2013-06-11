@@ -21,13 +21,13 @@ import ar.com.buho.blog.model.Tag;
 @Service
 public class BlogServiceImpl implements BlogService {
 
-	@Autowired
+	@Autowired(required=true)
 	private IPostDAO postDAO;
 	
-	@Autowired
+	@Autowired(required=true)
 	private ICommentDAO commentDAO;
 	
-	@Autowired
+	@Autowired(required=true)
 	private ITagDAO tagDAO;
 	
 	@Transactional(readOnly = true)
@@ -42,13 +42,13 @@ public class BlogServiceImpl implements BlogService {
 		return postList;
 	}
 	
-	@Transactional
+	@Transactional(readOnly = false)
 	public void savePost(Post post) {
 		post = this.setTagsForPost(post);
 		postDAO.create(post);
 	}
 	
-	@Transactional
+	@Transactional(readOnly = false)
 	public void updatePost(Post post) {
 		post = this.setTagsForPost(post);
 		postDAO.update(post);
@@ -59,7 +59,7 @@ public class BlogServiceImpl implements BlogService {
 		return postDAO.findAll();
 	}
 
-	@Transactional
+	@Transactional(readOnly = false)
 	public void removePost(long id) {
 		postDAO.deleteById(id);
 		
@@ -70,7 +70,7 @@ public class BlogServiceImpl implements BlogService {
 		return commentDAO.findById(id);
 	}
 
-	@Transactional
+	@Transactional(readOnly = false)
 	public void saveComment(Comment comment, long postId) {
 		Post post = postDAO.findById(postId);
 		comment.setPost(post);
@@ -82,7 +82,7 @@ public class BlogServiceImpl implements BlogService {
 		return commentDAO.findAll();
 	}
 	
-	@Transactional
+	@Transactional(readOnly = false)
 	public void removeComment(long id) {
 		commentDAO.deleteById(id);
 	}

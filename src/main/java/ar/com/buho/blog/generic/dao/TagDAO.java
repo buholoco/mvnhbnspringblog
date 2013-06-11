@@ -1,7 +1,10 @@
 package ar.com.buho.blog.generic.dao;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Repository;
 
 import ar.com.buho.blog.model.Tag;
@@ -31,4 +34,6 @@ public class TagDAO extends AbstractHibernateDAO<Tag> implements ITagDAO {
 			super.create(tag);
 		}
 	}
+
+	
 }

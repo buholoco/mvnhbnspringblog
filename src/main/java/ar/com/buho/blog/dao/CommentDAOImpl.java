@@ -18,7 +18,7 @@ public class CommentDAOImpl implements CommentDAO, Serializable {
 	 */
 	private static final long serialVersionUID = 1010404277298530237L;
 	
-	@Autowired
+	@Autowired(required=true)
 	private SessionFactory sessionFactory;
 	
 	@Override

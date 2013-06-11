@@ -5,12 +5,16 @@
 
 <tiles-definitions>
 
-	<definition name="baseLayout" template="/WEB-INF/jsp/layout/layout.jsp">
+	<definition name="baseLayout" template="/WEB-INF/jsp/layout/layout.jsp" >
 		<put-attribute name="header" value="/WEB-INF/jsp/layout/header.jsp" />
-		<put-attribute name="navigation" value="/WEB-INF/jsp/layout/navigation.jsp" />
+		<put-attribute name="navigation" value="navigation" />
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/WEB-INF/jsp/layout/footer.jsp" />
 	</definition>
+	
+	<definition name="navigation" preparer="NavigationController"
+        template="/WEB-INF/jsp/layout/navigation.jsp">
+    </definition>
 
 	<!-- <definition name="index" extends="baseLayout"> -->
 	<!-- <put-attribute name="body" value="/WEB-INF/jsp/post/list.jsp" /> -->
@@ -23,34 +27,35 @@
 			</definition>
 		</put-attribute>
 	</definition>
-	
+
 	<definition name="comment-list" extends="baseLayout">
-        <put-attribute name="body">
-            <definition template="/WEB-INF/jsp/comment/list.jsp">
-                <put-attribute name="_comment" value="/WEB-INF/jsp/comment/_comment.jsp" />
-            </definition>
-        </put-attribute>
-    </definition>
+		<put-attribute name="body">
+			<definition template="/WEB-INF/jsp/comment/list.jsp">
+				<put-attribute name="_comment"
+					value="/WEB-INF/jsp/comment/_comment.jsp" />
+			</definition>
+		</put-attribute>
+	</definition>
 
 	<definition name="post-add" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/jsp/post/form.jsp" />
 	</definition>
 
 	<definition name="post-show" extends="baseLayout">
-	   <put-attribute name="body">
-	       <definition template="/WEB-INF/jsp/post/show.jsp">
-	           <put-attribute name="_post" value="/WEB-INF/jsp/post/_post.jsp" />
-	           <put-attribute name="comments-list" value="/WEB-INF/jsp/comment/list.jsp" />
-	       </definition>
+		<put-attribute name="body">
+			<definition template="/WEB-INF/jsp/post/show.jsp">
+				<put-attribute name="_post" value="/WEB-INF/jsp/post/_post.jsp" />
+				<put-attribute name="comments-list" value="/WEB-INF/jsp/comment/list.jsp" />
+			</definition>
 		</put-attribute>
 	</definition>
-	
+
 	<definition name="comment-add" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/jsp/comment/form.jsp" />
 	</definition>
-	
+
 	<definition name="login" extends="baseLayout">
-        <put-attribute name="body" value="/WEB-INF/jsp/login/form.jsp" />
-    </definition>
-	
+		<put-attribute name="body" value="/WEB-INF/jsp/login/form.jsp" />
+	</definition>
+
 </tiles-definitions>
