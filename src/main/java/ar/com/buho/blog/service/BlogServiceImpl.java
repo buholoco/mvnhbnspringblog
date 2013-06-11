@@ -1,8 +1,10 @@
 package ar.com.buho.blog.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,14 @@ public class BlogServiceImpl implements BlogService {
 	@Transactional(readOnly = true)
 	public Comment findCommentbyId(long id) {
 		return commentDAO.findById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Comment> findLastestComments() {
+		HashMap<String, String> options = new HashMap();
+		options.put("orderBy", "created");
+		options.put("maxResults", "5");
+		return commentDAO.findAll(options);
 	}
 
 	@Transactional(readOnly = false)

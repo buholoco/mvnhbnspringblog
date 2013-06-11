@@ -7,10 +7,8 @@
 <div class="well sidebar-nav">
     <ul class="nav nav-list">
         <li class="nav-header">Sidebar</li>
-        <li class="active"><a href="#">Link</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="<c:url value="/post/add.htm" />">Add post</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
     </ul>
 </div>
 <div class="well sidebar-nav">
@@ -25,5 +23,17 @@
         </c:if>
     </ul>
 </div>
-
+<div class="well sidebar-nav">
+    <ul class="nav nav-list">
+        <li class="nav-header">Recent comments</li>
+        <c:if test="${!empty lastComments }">
+            <li>
+            <c:forEach items="${lastComments }" var="comment" >
+                <a href="<c:url value="/post/${comment.post.id }/show.htm#comment-${comment.id}"/>">${comment.title } </a>
+                <p>${comment.content }</p> 
+            </c:forEach>
+            </li>
+        </c:if>
+    </ul>
+</div>
 

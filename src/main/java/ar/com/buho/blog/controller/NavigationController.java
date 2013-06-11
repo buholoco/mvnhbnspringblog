@@ -20,6 +20,7 @@ public class NavigationController extends ViewPreparerSupport {
 	public void execute(TilesRequestContext tilesContext,
 			AttributeContext attributeContext) {
 		tilesContext.getRequestScope().put("tagList", blogService.findTags());
+		tilesContext.getRequestScope().put("lastComments", blogService.findLastestComments());
 		
 	}
 	

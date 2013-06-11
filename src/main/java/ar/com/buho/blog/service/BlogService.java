@@ -18,6 +18,7 @@ public interface BlogService {
 	public void removePost(long id);
 	
 	public Comment findCommentbyId(long id);
+	public List<Comment> findLastestComments();
 	public void saveComment(Comment comment, long postId);
 	public List<Comment> findComments();
 	public void removeComment(long id);
