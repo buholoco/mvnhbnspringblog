@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,21 +38,19 @@ public class BlogServiceImpl implements BlogService {
 	
 	@Transactional(readOnly = true)
 	public List<Post> findPostsByTagId(long id) {
-		List<Post> postList = new ArrayList<Post>();
-		postList.addAll(tagDAO.findById(id).getPosts());
-		return postList;
+		return (List<Post>) tagDAO.findById(id).getPosts();
 	}
 	
 	@Transactional(readOnly = false)
 	public void savePost(Post post) {
-		post = this.setTagsForPost(post);
 		postDAO.create(post);
+//		this.updateTagsWeights();
 	}
 	
 	@Transactional(readOnly = false)
 	public void updatePost(Post post) {
-		post = this.setTagsForPost(post);
-		postDAO.update(post);
+		postDAO.update(post);		
+//		this.updateTagsWeights();
 	}
 
 	@Transactional(readOnly = true)
@@ -120,20 +117,12 @@ public class BlogServiceImpl implements BlogService {
 		return postList;
 	}
 	
-	private Post setTagsForPost(Post post) {
-		Set<Tag> tags = new HashSet<Tag>();
-		if (!post.getTags().isEmpty()) {
-			for(Tag tag : post.getTags()) {
-				Tag tag2 = findTagByTitle(tag.getTitle());
-				if (tag2 == null) {
-					tag2 = new Tag();
-					tag2.setTitle(tag.getTitle());
-				}
-				tags.add(tag2);
-			}
-		}
-		post.setTags(tags);
-		return post;
-	}
-
+//	private void updateTagsWeights() {
+//		List<Tag> tags = tagDAO.findAll();
+//		for (Tag tag : tags) {
+//			tag.setWeight(tag.getPosts().size());
+//			tagDAO.update(tag);
+//		}
+//	}
+	
 }

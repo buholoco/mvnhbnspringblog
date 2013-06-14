@@ -11,12 +11,12 @@
 <tiles:useAttribute name="post" ignore="true"/>
 <article id="post-${post.id }">
     <div id="sigle-post">
-        <h4><a href="<c:url value="/post/${post.id }/show.htm" />">${post.title }</a></h4>
-        <p>${post.content }</p>
+        <h4><a href="<c:url value="/post/${post.id }/show.htm" />"><c:out value="${post.title }" /></a></h4>
+        <p><c:out value="${post.content }"/></p>
         <p>Tags:         
 	        <c:if test="${!empty post.tags }">
 	           <c:forEach items="${post.tags }" var="tag" >
-	               <a href="<c:url value="/tag/${tag.id }/" />">${tag.title }</a> 
+	               <a href="<c:url value="/tag/${tag.id }/" />">${tag.title } | </a> 
 	            </c:forEach>
 	        </c:if>
         </p>

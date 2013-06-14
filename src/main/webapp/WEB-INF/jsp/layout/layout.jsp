@@ -59,9 +59,10 @@ body {
 <link rel="apple-touch-icon-precomposed"
 	href="<c:url value="/resources/ico/apple-touch-icon-57-precomposed.png"/>">
 <link rel="shortcut icon"
-	href="<c:url value="/resources/ico/favicon.png"/>">
+	href="<c:url value="/resources/ico/favicon.ico"/>">
 
 <link href="<c:url value="/resources/prettify/prettify-desert.css" />" type="text/css" rel="stylesheet" />
+<link href="<c:url value="/resources/css/sidebar.css" />" type="text/css" rel="stylesheet" />
 </head>
 
 <body onload="prettyPrint()">
@@ -87,7 +88,7 @@ body {
 						      <a href="<c:url value="/j_spring_security_logout" />">Logout</a>
 						</sec:authorize>
 						<sec:authorize access="isAnonymous()">
-							<a href="<c:url value="/login" />">Login</a>
+							<a href="<c:url value="/login.htm" />">Login</a>
 						</sec:authorize>
 
 					</p>

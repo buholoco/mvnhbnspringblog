@@ -4,15 +4,14 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.validator.constraints.NotBlank;
@@ -35,6 +34,9 @@ public class Tag implements Serializable {
 	@NotBlank
 	private String title;
 	
+	@Transient
+	private int weight;
+	
 	@JsonBackReference("post-tag")
 	@ManyToMany(mappedBy="tags")
 	private Set<Post> posts = new HashSet<Post>();
@@ -55,18 +57,25 @@ public class Tag implements Serializable {
 		this.title = title.toLowerCase();
 	}
 
+	public int getWeight() {
+		return this.getPosts().size();
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
 	public Set<Post> getPosts() {
+
 		return posts;
+		
 	}
 
 	public void setPosts(Set<Post> posts) {
 		this.posts = posts;
 	}
 
-	@Override
-	public String toString() {
-		return this.title;
-	}
+	
 	
 	
 

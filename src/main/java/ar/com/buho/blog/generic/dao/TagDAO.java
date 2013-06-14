@@ -1,39 +1,32 @@
 package ar.com.buho.blog.generic.dao;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.collections.map.HashedMap;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import ar.com.buho.blog.model.Tag;
 
 @Repository
 public class TagDAO extends AbstractHibernateDAO<Tag> implements ITagDAO {
-
+	protected static Logger logger = Logger.getLogger("dao");
+	
 	public TagDAO() {
 		setClazz(Tag.class);
 	}
 	
 	public Tag findByTitle(String title) {
+//		logger.debug("findByTitle " + title);
 		List<Tag> tags = getCurrentSession().createQuery("from Tag t where t.title = :tag_title")
 				.setParameter("tag_title", title)
 				.list();
 		if (tags.isEmpty()) {
-			return null;
+			Tag tag = new Tag();
+			tag.setId(0);
+			tag.setTitle(title);
+			return tag;
 		} else {
 			return tags.get(0);
 		}
-		
 	}
-	
-	@Override
-	public void create(Tag tag) {
-		if (findByTitle(tag.getTitle()) == null) {
-			super.create(tag);
-		}
-	}
-
-	
 }

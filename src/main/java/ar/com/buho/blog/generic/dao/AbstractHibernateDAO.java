@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractHibernateDAO<T extends Serializable> implements IOperations<T>{
+	protected static Logger logger = Logger.getLogger("dao");
 	private Class<T> clazz;
 
 	@Autowired(required=true)
@@ -20,7 +22,7 @@ public abstract class AbstractHibernateDAO<T extends Serializable> implements IO
 	protected final void setClazz(Class<T> clazzToSet) {
 		this.clazz = clazzToSet;
 	}
-
+	
 	public final T findById(long id) {
 		return (T) getCurrentSession().get(clazz, id);
 	}
@@ -48,14 +50,17 @@ public abstract class AbstractHibernateDAO<T extends Serializable> implements IO
 	}
 
 	public void create(T entity) {
+		logger.debug(entity.getClass() + " - create (T entity)");
 		getCurrentSession().persist(entity);
 	}
 
-	public final T update(T entity) {
+	public T update(T entity) {
+		logger.debug(entity.getClass() + " - update (T entity)");
 		return (T) getCurrentSession().merge(entity);
 	}
 
-	public final void delete(T entity) {
+	public void delete(T entity) {
+		logger.debug(entity.getClass() + " - delete (T entity)");
 		getCurrentSession().delete(entity);
 	}
 

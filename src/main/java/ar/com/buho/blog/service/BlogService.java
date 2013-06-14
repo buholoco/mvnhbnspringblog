@@ -1,6 +1,7 @@
 package ar.com.buho.blog.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.support.PagedListHolder;
 

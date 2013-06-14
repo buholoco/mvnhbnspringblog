@@ -46,11 +46,4 @@ public class TagController {
 
 		return "index";
 	}
-	
-	@RequestMapping(value="/listTags", method = RequestMethod.GET)
-	public String listTags(Model model) {
-		logger.debug("Received request to get listTopTag");
-		model.addAttribute("listTags", blogService.findTags());
-		return "listTags";
-	}
 }

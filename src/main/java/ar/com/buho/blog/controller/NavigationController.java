@@ -1,5 +1,8 @@
 package ar.com.buho.blog.controller;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.preparer.ViewPreparerSupport;
@@ -7,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import ar.com.buho.blog.model.Tag;
 import ar.com.buho.blog.service.BlogService;
 
 @Controller("NavigationController")
@@ -19,7 +23,9 @@ public class NavigationController extends ViewPreparerSupport {
 	@Override
 	public void execute(TilesRequestContext tilesContext,
 			AttributeContext attributeContext) {
-		tilesContext.getRequestScope().put("tagList", blogService.findTags());
+		List<Tag> tags = blogService.findTags();
+		Collections.shuffle(tags);
+		tilesContext.getRequestScope().put("tagList", tags);
 		tilesContext.getRequestScope().put("lastComments", blogService.findLastestComments());
 		
 	}

@@ -10,5 +10,5 @@ public class PostDAO extends AbstractHibernateDAO<Post> implements IPostDAO {
 	public PostDAO() {
 		setClazz(Post.class);
 	}
-
+	
 }

@@ -41,7 +41,7 @@ public class PostController {
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-	    binder.registerCustomEditor(Set.class, "tags", new CommaDelimitedStringEditor());
+	    binder.registerCustomEditor(Set.class, "tags", new CommaDelimitedStringEditor(blogService));
 	}
 	
 	@RequestMapping("post/{id}")

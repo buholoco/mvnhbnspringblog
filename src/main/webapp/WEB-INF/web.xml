@@ -23,6 +23,7 @@
 	    <param-name>defaultHtmlEscape</param-name>
 	    <param-value>true</param-value>
     </context-param>
+    
     <!-- Tiles listener -->
     <listener>
         <listener-class>org.apache.tiles.web.startup.TilesListener</listener-class>
@@ -31,6 +32,11 @@
     <!-- Loggin listener -->
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+    
+    <!-- Application Context listener (deregister drivers) -->
+    <listener>
+        <listener-class>ar.com.buho.blog.listener.DeregisterDriversListener</listener-class>
     </listener>
     
     <!-- Open Session In View Filter (keep my session open for lazy loading) -->
@@ -57,6 +63,7 @@
 	  <filter-name>springSecurityFilterChain</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
     <!-- used so we can use forms of method type 'PUT' and 'DELETE' (such as in the Pet form)
 see here: http://static.springsource.org/spring/docs/current/spring-framework-reference/html/view.html#rest-method-conversion
 -->

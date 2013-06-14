@@ -7,7 +7,7 @@ import java.util.List;
 public interface IOperations<T extends Serializable> {
 
     T findById(final long id);
-
+    
     List<T> findAll();
     
     List<T> findAll(HashMap<String, String> options);

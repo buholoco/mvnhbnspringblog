@@ -5,18 +5,24 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import ar.com.buho.blog.model.Tag;
+import ar.com.buho.blog.service.BlogService;
 
 public class CommaDelimitedStringEditor extends PropertyEditorSupport{
+	private BlogService blogService;
+	
+	public CommaDelimitedStringEditor(BlogService blogService) {
+		this.blogService = blogService;
+	}
 	
 	public void setAsText(String text) {
 		Set<Tag> tags = new HashSet<Tag>();
 		if (!text.isEmpty()) {
 			String[] stringTags = text.split(",");
 	        for(String title : stringTags) {
-	        	title = title.trim();
-	        	Tag tag = new Tag();
-	        	tag.setTitle(title);
+	        	Tag tag = blogService.findTagByTitle(title.trim());
 	        	
 	        	tags.add(tag);
 	        }

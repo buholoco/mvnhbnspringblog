@@ -66,8 +66,9 @@ public class Post implements Timestampable, Serializable {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		      name="POST_TAG", 
-		      joinColumns={@JoinColumn(name="POST_ID", referencedColumnName="ID")},
-		      inverseJoinColumns={@JoinColumn(name="TAG_ID", referencedColumnName="ID")})
+		      joinColumns={@JoinColumn(name="POST_ID", referencedColumnName="ID", nullable = false, updatable = false)},
+		      inverseJoinColumns={@JoinColumn(name="TAG_ID", referencedColumnName="ID", nullable = false, updatable = false)}
+		      )
 	private Set<Tag> tags = new HashSet<Tag>();
 
 	public long getId() {

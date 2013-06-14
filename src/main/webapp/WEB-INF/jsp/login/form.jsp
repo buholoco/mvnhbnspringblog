@@ -8,15 +8,13 @@
 
 <form name='f' action="<c:url value='j_spring_security_check' />" method='POST'>
 	<label for="user">User</label> 
-	<input type="text" name="j_username" id="j_username"/>
+	<input type="text" name="j_username" id="j_username" autofocus="autofocus"/>
 	<label for="password">Password</label> 
 	<input type="password" name="j_password" /> 
 	<input type="submit" value="Login" />
 </form>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-         $('#j_username').focus();
-    });
+    
     
 </script>

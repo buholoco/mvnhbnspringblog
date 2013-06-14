@@ -11,7 +11,7 @@ import org.hibernate.type.Type;
 import ar.com.buho.blog.model.Timestampable;
 
 public class EntityInterceptor extends EmptyInterceptor {
-	
+
 	protected static Logger logger = Logger.getLogger("interceptor");
 
 	/**
@@ -20,21 +20,19 @@ public class EntityInterceptor extends EmptyInterceptor {
 	private static final long serialVersionUID = 5867083174286346616L;
 
 	@Override
-	public boolean onSave(Object entity, Serializable id, Object[] currentState,
-			String[] propertyNames, Type[] types) {
-		logger.debug("Intercept onSave Timestampable object");
-		
-		if ((entity instanceof Timestampable)) {
+	public boolean onSave(Object entity, Serializable id,
+			Object[] currentState, String[] propertyNames, Type[] types) {
+		logger.debug("Intercept onSave object " + entity.getClass());
+
+		if (entity instanceof Timestampable) {
 			int createdIndex = (Arrays.asList(propertyNames).indexOf("created"));
 			currentState[createdIndex] = new Date();
-			
+
 			int updatedIndex = (Arrays.asList(propertyNames).indexOf("updated"));
 			currentState[updatedIndex] = new Date();
 			return true;
 		}
-		for (String property: propertyNames) {
-			System.out.println(property);
-		}
+
 		return false;
 	}
 
@@ -42,18 +40,43 @@ public class EntityInterceptor extends EmptyInterceptor {
 	public boolean onFlushDirty(Object entity, Serializable id,
 			Object[] currentState, Object[] previousState,
 			String[] propertyNames, Type[] types) {
-		logger.debug("Intercept onFlushDirty Timestampable object");
-		
-		if ((entity instanceof Timestampable)) {
-			
-			for (int i = 0; i < propertyNames.length; i++) {
-				if ("updated".equals(propertyNames[i]))
-					currentState[i] = new Date();
-			}
+		logger.debug("Intercept onFlushDirty object " + entity.getClass());
+
+		if (entity instanceof Timestampable) {
+
+			int updatedIndex = (Arrays.asList(propertyNames).indexOf("updated"));
+			currentState[updatedIndex] = new Date();
+
 			return true;
 		}
-		
+
 		return false;
+	}
+
+	@Override
+	public void onDelete(Object entity, Serializable id, Object[] state,
+			String[] propertyNames, Type[] types) {
+		logger.debug("Intercept onDelete object " + entity.getClass());
+	}
+
+	@Override
+	public void onCollectionUpdate(Object collection, Serializable key) {
+		logger.debug("Intercept onCollectionUpdate " + collection.getClass()
+				+ collection);
+		
+	}
+
+	@Override
+	public void onCollectionRecreate(Object collection, Serializable key) {
+		logger.debug("Intercept onCollectionRecreate" + collection.getClass()
+				+ collection);
+
+	}
+
+	@Override
+	public void onCollectionRemove(Object collection, Serializable key) {
+		logger.debug("Intercept onCollectionRemove" + collection);
+
 	}
 
 }
