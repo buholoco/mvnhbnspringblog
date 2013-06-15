@@ -26,6 +26,8 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
@@ -81,6 +83,13 @@
 			<version>1.9.12</version>
 		</dependency>
 
+        <!-- javax mail -->
+        <dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+		            
 
 		<!-- Hibernate -->
 		<dependency>

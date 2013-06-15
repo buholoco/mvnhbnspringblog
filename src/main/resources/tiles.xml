@@ -57,5 +57,9 @@
 	<definition name="login" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/jsp/login/form.jsp" />
 	</definition>
+	
+	<definition name="contact" extends="baseLayout">
+        <put-attribute name="body" value="/WEB-INF/jsp/mail/form.jsp" />
+    </definition>
 
 </tiles-definitions>

@@ -95,7 +95,7 @@ body {
 					<ul class="nav">
 						<li class="active"><a href="<c:url value="/"/>">Home</a></li>
 						<li><a href="#about">About</a></li>
-						<li><a href="#contact">Contact</a></li>
+						<li><a href="/blog/contact.htm">Contact</a></li>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->

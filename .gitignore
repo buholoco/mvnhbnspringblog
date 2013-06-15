@@ -72,3 +72,4 @@ local.properties
 
 # Property file
 jdbc.properties
+mail.properties

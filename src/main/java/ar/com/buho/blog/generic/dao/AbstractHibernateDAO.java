@@ -66,6 +66,8 @@ public abstract class AbstractHibernateDAO<T extends Serializable> implements IO
 
 	public final void deleteById(long entityId) {
 		T entity = findById(entityId);
+		logger.debug(entity.getClass() + " - deleteById (long entityId)");
+		getCurrentSession().delete(entity);
 		delete(entity);
 	}
 

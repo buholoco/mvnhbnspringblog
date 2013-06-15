@@ -19,7 +19,7 @@
             <p>
             <c:forEach items="${tagList }" var="tag" >
                 <c:if test="${!(tag.weight eq 0) }" >
-                    <a href="<c:url value="/tag/${tag.id}"/>"><span class="weight-${tag.weight }">${tag.title } </span></a>,
+                    <a href="<c:url value="/tag/${tag.id}"/>"><span class="weight-${tag.weight }"> ${tag.title } </span></a>
                 </c:if> 
             </c:forEach>
             </p>

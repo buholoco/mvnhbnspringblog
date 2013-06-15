@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import ar.com.buho.blog.model.Tag;
 import ar.com.buho.blog.service.BlogService;
 
