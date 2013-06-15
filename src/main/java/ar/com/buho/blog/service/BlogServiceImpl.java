@@ -41,6 +41,11 @@ public class BlogServiceImpl implements BlogService {
 		return (List<Post>) tagDAO.findById(id).getPosts();
 	}
 	
+	@Transactional(readOnly=true) 
+	public List<Post> findPostsByTitle(String title) {
+		return (List<Post>) postDAO.findByTitle(title);
+	}
+	
 	@Transactional(readOnly = false)
 	public void savePost(Post post) {
 		postDAO.create(post);

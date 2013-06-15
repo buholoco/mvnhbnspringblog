@@ -79,7 +79,7 @@ body {
 				<a class="brand" href="<c:url value="/" />">Blog</a>
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
-
+					    <a href="<c:url value="search.htm" />">Search</a> |
 						<sec:authorize access="isAuthenticated()"> 
 						  Logged in as 
 						  <a href="#" class="navbar-link"> <sec:authentication

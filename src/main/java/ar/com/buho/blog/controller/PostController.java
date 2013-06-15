@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -78,7 +79,30 @@ public class PostController {
 
 		return "post-show";
 	}
+	
+	@RequestMapping(value = "/search.htm", method = RequestMethod.GET)
+	public String searchPosts(@RequestParam(value="title", required=false) String title, HttpServletRequest request, Model model) {
+		logger.debug("Received request to post /search.htm, search " + title);
 
+		if (title == null) {
+			model.addAttribute("title", "Search");
+			
+			return "search";
+		} else {
+			List<Post> listPost = blogService.findPostsByTitle(title);
+			logger.debug("Received request to post /search.htm, return  " + listPost);
+			PagedListHolder<Post> pagedPostList = blogService.getPagedList(listPost, "created", false);
+			int page = ServletRequestUtils.getIntParameter(request, "p", 0);
+			pagedPostList.setPage(page);
+			
+			model.addAttribute("title", "Showing results for posts with title " + title);
+			model.addAttribute("searchString", title);
+			model.addAttribute("postList", pagedPostList);
+	
+			return "index";
+		}
+	}
+	
 	@RequestMapping(value = "/post/add.htm", method = RequestMethod.GET)
 	public String addPost(Model model) {
 		logger.debug("Received request to get post-add");

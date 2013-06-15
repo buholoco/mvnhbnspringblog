@@ -61,5 +61,9 @@
 	<definition name="contact" extends="baseLayout">
         <put-attribute name="body" value="/WEB-INF/jsp/mail/form.jsp" />
     </definition>
+    
+    <definition name="search" extends="baseLayout">
+        <put-attribute name="body" value="/WEB-INF/jsp/post/search.jsp" />
+    </definition>
 
 </tiles-definitions>

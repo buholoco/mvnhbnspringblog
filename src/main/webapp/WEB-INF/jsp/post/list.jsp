@@ -7,9 +7,10 @@
 <%@taglib tagdir="/WEB-INF/tags" prefix="pg" %>
 <%-- // use our pagedListHolder --%>
 <jsp:useBean id="postList" scope="request" type="org.springframework.beans.support.PagedListHolder"/>
+
 <%-- // create link for pages, "~" will be replaced 
    later on with the proper page number --%>
-<c:url value="" var="pagedLink">
+<c:url value="?title=${searchString }" var="pagedLink">
 	<c:param name="p" value="~"/>
 </c:url>
 
