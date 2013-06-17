@@ -50,11 +50,11 @@
 <form:form method="post" action="/blog/post/${post.id }/comment/add.htm" commandName="comment">
 	<form:label path="title">Title</form:label>
 	<form:input path="title" placeholder="Enter title.."
-		class="input-block-level" />
+		class="input-large" />
 	<form:errors path="title" class="text-error" />
 
     <form:label path="content">Content</form:label>
-	<form:textarea path="content" class="input-block-level" />
+	<form:textarea path="content" class="input-xxlarge" rows="8"/>
 	<form:errors path="content" class="text-error" />
 
 	<br />

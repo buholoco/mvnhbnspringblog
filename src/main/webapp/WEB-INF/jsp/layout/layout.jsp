@@ -79,8 +79,7 @@ body {
 				<a class="brand" href="<c:url value="/" />">Blog</a>
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
-					    <a href="<c:url value="search.htm" />">Search</a> |
-						<sec:authorize access="isAuthenticated()"> 
+					    <sec:authorize access="isAuthenticated()"> 
 						  Logged in as 
 						  <a href="#" class="navbar-link"> <sec:authentication
 									property="principal.username" />
@@ -88,10 +87,10 @@ body {
 						      <a href="<c:url value="/j_spring_security_logout" />">Logout</a>
 						</sec:authorize>
 						<sec:authorize access="isAnonymous()">
-							<a href="<c:url value="/login.htm" />">Login</a>
+							<a href="<c:url value="/login.htm" />" >Login</a>
 						</sec:authorize>
-
-					</p>
+						<jsp:include page="../post/search.jsp" />
+                    </p>
 					<ul class="nav">
 						<li class="active"><a href="<c:url value="/"/>">Home</a></li>
 						<li><a href="#about">About</a></li>

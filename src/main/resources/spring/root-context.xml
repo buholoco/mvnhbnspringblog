@@ -9,13 +9,12 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     
-    <context:component-scan base-package="ar.com.buho.blog"/>    
+    <context:component-scan base-package="ar.com.buho.blog" >   
+         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>    
     
     <!--  all resources inside folder src/main/webapp/resources are mapped so they can be refered to inside JSP files -->
     <mvc:resources mapping="/resources/**" location="/resources/" />
-
-    <!-- Configures the @Controller programming model -->
-    <mvc:annotation-driven />
     
     <!-- Configurer that replaces ${...} placeholders with values from a properties file -->
     <!-- (in this case, JDBC and mail settings -->

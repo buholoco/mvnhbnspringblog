@@ -13,7 +13,7 @@
 
 
 	<form:label path="content">Content</form:label>
-	<form:textarea path="content" class="input-block-level" htmlEscape="true"/>
+	<form:textarea path="content" class="input-block-level" rows="10" htmlEscape="true"/>
 	<form:errors path="content" class="text-error" />
 
     <form:label path="tags" title="Comma separate values">Tags</form:label>
