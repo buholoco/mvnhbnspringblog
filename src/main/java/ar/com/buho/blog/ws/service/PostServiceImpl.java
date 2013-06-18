@@ -5,16 +5,17 @@ import javax.jws.WebMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ar.com.buho.blog.model.Post;
-import ar.com.buho.blog.service.BlogService;
 
-public class PostServiceImpl implements PostService {
+import ar.com.buho.blog.service.PostService;
+
+public class PostServiceImpl implements ar.com.buho.blog.ws.service.PostService {
 
 	@Autowired
-	BlogService blogService;
+	private PostService postService;
 	
 	@WebMethod
 	public Post findById(long id) {
-		return blogService.findPostById(id);
+		return postService.findPostById(id);
 	}
 
 }

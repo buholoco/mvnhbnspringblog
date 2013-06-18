@@ -1,4 +1,4 @@
-package ar.com.buho.blog.generic.dao;
+package ar.com.buho.blog.generic.dao.impl;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -10,6 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import ar.com.buho.blog.generic.dao.IOperations;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractHibernateDAO<T extends Serializable> implements IOperations<T>{

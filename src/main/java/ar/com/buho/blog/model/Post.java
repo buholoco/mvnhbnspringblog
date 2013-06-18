@@ -27,10 +27,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 @Entity
-//@FetchProfile(name = "posts-with-deps", fetchOverrides = {
-//		   @FetchProfile.FetchOverride(entity = Post.class, association = "comments", mode = FetchMode.JOIN),
-//		   @FetchProfile.FetchOverride(entity = Post.class, association = "tags", mode = FetchMode.JOIN)
-//		})
 @Table(name = "POST")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

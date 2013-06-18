@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ar.com.buho.blog.model.Post;
 import ar.com.buho.blog.model.Tag;
 import ar.com.buho.blog.service.BlogService;
+import ar.com.buho.blog.service.TagService;
 
 @Controller
 public class TagController {
@@ -26,13 +27,16 @@ public class TagController {
 
 	@Autowired
 	private BlogService blogService;
+	
+	@Autowired
+	private TagService tagService;
 
 	@RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
 	public String show(@PathVariable("id") long tagId,
 			HttpServletRequest request, Model model) {
 		logger.debug("Received request to get tag show");
 
-		Tag tag = blogService.findTagById(tagId);
+		Tag tag = tagService.findTagById(tagId);
 		List<Post> listPost = new ArrayList<Post>();
 				
 		listPost.addAll(tag.getPosts());

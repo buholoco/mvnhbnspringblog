@@ -27,8 +27,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.com.buho.blog.model.Comment;
 import ar.com.buho.blog.model.Post;
-import ar.com.buho.blog.propertyeditors.CommaDelimitedStringEditor;
+import ar.com.buho.blog.propertyeditor.CommaDelimitedStringEditor;
 import ar.com.buho.blog.service.BlogService;
+import ar.com.buho.blog.service.PostService;
+import ar.com.buho.blog.service.TagService;
 
 @Controller
 @SessionAttributes("post")
@@ -38,11 +40,17 @@ public class PostController {
 
 	@Autowired(required = true)
 	private BlogService blogService;
+	
+	@Autowired(required = true)
+	private PostService postService;
+	
+	@Autowired(required = true)
+	private TagService tagService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Set.class, "tags",
-				new CommaDelimitedStringEditor(blogService));
+				new CommaDelimitedStringEditor(tagService));
 	}
 
 	@RequestMapping("post/{id}")
@@ -50,17 +58,15 @@ public class PostController {
 	public Post getPostById(@PathVariable long id) {
 		logger.debug("Received request to get PostById (json)");
 
-		return blogService.findPostById(id);
+		return postService.findPostById(id);
 	}
 
 	@RequestMapping("/")
 	public String listPosts(HttpServletRequest request, Model model) {
 		logger.debug("Received request to get /");
 
-		List<Post> listPost = blogService.findPosts();
-
 		PagedListHolder<Post> pagedPostList = blogService.getPagedList(
-				listPost, "created", false);
+				postService.findPosts(), "created", false);
 		int page = ServletRequestUtils.getIntParameter(request, "p", 0);
 		pagedPostList.setPage(page);
 
@@ -74,7 +80,7 @@ public class PostController {
 	public String showPost(@PathVariable long id, Model model) {
 		logger.debug("Received request to show post");
 
-		Post post = blogService.findPostById(id);
+		Post post = postService.findPostById(id);
 		model.addAttribute("title", "Show " + post.getTitle());
 		model.addAttribute("newComment", new Comment());
 		model.addAttribute(post);
@@ -93,7 +99,7 @@ public class PostController {
 
 			return "search";
 		} else {
-			List<Post> listPost = blogService.findPostsByTitle(title);
+			List<Post> listPost = postService.findPostsByTitle(title);
 			logger.debug("Received request to post /search.htm, return  "
 					+ listPost);
 			PagedListHolder<Post> pagedPostList = blogService.getPagedList(
@@ -131,9 +137,9 @@ public class PostController {
 			return "post-add";
 		} else {
 			if (post.getId() > 0) {
-				blogService.updatePost(post);
+				postService.updatePost(post);
 			} else {
-				blogService.savePost(post);
+				postService.savePost(post);
 			}
 			status.setComplete();
 			redirectAttributes.addFlashAttribute("success", "Post saved!");
@@ -147,7 +153,7 @@ public class PostController {
 		logger.debug("Received request to get edit-post");
 
 		model.addAttribute("title", "Edit Post");
-		Post post = blogService.findPostById(id);
+		Post post = postService.findPostById(id);
 		model.addAttribute(post);
 
 		return "post-add";
@@ -158,7 +164,7 @@ public class PostController {
 			SessionStatus status, HttpServletRequest request) {
 		logger.debug("Received request to delete post");
 
-		blogService.removePost(id);
+		postService.removePost(id);
 		status.setComplete();
 
 		return "redirect:/";

@@ -18,8 +18,9 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.com.buho.blog.model.Comment;
-import ar.com.buho.blog.service.BlogService;
+import ar.com.buho.blog.service.CommentService;
 import ar.com.buho.blog.service.JsonResponse;
+import ar.com.buho.blog.service.PostService;
 
 @Controller
 @RequestMapping("/post/{idPost}")
@@ -28,13 +29,16 @@ public class CommentController {
 	protected static Logger logger = Logger.getLogger("controller");
 	
 	@Autowired
-	private BlogService blogService;
+	private PostService postService;
+	
+	@Autowired
+	private CommentService commentService;
 	
 	@RequestMapping(value = "/comment/add.htm", method = RequestMethod.GET)
 	public String addComment(@PathVariable("id") long postId, Model model) {
 		logger.debug("Received request to get comment-add");
 		
-		model.addAttribute(blogService.findPostById(postId));
+		model.addAttribute(postService.findPostById(postId));
 		model.addAttribute("title", "Add comment");
 		model.addAttribute("comment", new Comment());
 		
@@ -52,7 +56,7 @@ public class CommentController {
 			model.addAttribute("title", "New/Edit Comment");
 			return "comment-add";
 		} else {
-			blogService.saveComment(comment, postId);
+			commentService.saveComment(comment, postId);
 			
 			status.setComplete();
 			redirectAttributes.addFlashAttribute("success","Comment saved!");
@@ -72,7 +76,7 @@ public class CommentController {
 			res.setStatus("FAIL");
 			res.setResult(result.getAllErrors());
 		} else {
-			blogService.saveComment(comment, postId);
+			commentService.saveComment(comment, postId);
 			status.setComplete();
 			res.setStatus("SUCCESS");
 			res.setResult(comment);

@@ -1,4 +1,4 @@
-package ar.com.buho.blog.propertyeditors;
+package ar.com.buho.blog.propertyeditor;
 
 import java.beans.PropertyEditorSupport;
 import java.util.HashSet;
@@ -6,13 +6,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 import ar.com.buho.blog.model.Tag;
-import ar.com.buho.blog.service.BlogService;
+import ar.com.buho.blog.service.TagService;
 
 public class CommaDelimitedStringEditor extends PropertyEditorSupport{
-	private BlogService blogService;
+	private TagService tagService;
 	
-	public CommaDelimitedStringEditor(BlogService blogService) {
-		this.blogService = blogService;
+	public CommaDelimitedStringEditor(TagService tagService) {
+		this.tagService = tagService;
 	}
 	
 	public void setAsText(String text) {
@@ -20,7 +20,7 @@ public class CommaDelimitedStringEditor extends PropertyEditorSupport{
 		if (!text.isEmpty()) {
 			String[] stringTags = text.split(",");
 	        for(String title : stringTags) {
-	        	Tag tag = blogService.findTagByTitle(title.trim());
+	        	Tag tag = tagService.findTagByTitle(title.trim());
 	        	
 	        	tags.add(tag);
 	        }

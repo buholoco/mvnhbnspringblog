@@ -11,22 +11,26 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import ar.com.buho.blog.model.Tag;
-import ar.com.buho.blog.service.BlogService;
+import ar.com.buho.blog.service.CommentService;
+import ar.com.buho.blog.service.TagService;
 
 @Controller("NavigationController")
 @Scope("request")
 public class NavigationController extends ViewPreparerSupport {
 
-	@Autowired(required=true)
-	BlogService blogService;
+	@Autowired(required = true)
+	TagService tagService;
+	
+	@Autowired(required = true)
+	CommentService commentService;
 	
 	@Override
 	public void execute(TilesRequestContext tilesContext,
 			AttributeContext attributeContext) {
-		List<Tag> tags = blogService.findTags();
+		List<Tag> tags = tagService.findTags();
 		Collections.shuffle(tags);
 		tilesContext.getRequestScope().put("tagList", tags);
-		tilesContext.getRequestScope().put("lastComments", blogService.findLastestComments());
+		tilesContext.getRequestScope().put("lastComments", commentService.findLastestComments());
 		
 	}
 	
