@@ -12,11 +12,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
 @Table(name = "COMMENT")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Comment implements Timestampable, Serializable {
 	
 	/**
@@ -44,6 +48,7 @@ public class Comment implements Timestampable, Serializable {
 	private Date updated;
 	
 	@JsonBackReference("post-comment")
+	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name = "POST_ID")
 	private Post post;

@@ -36,19 +36,20 @@ public class PostController {
 
 	protected static Logger logger = Logger.getLogger("controller");
 
-	@Autowired(required=true)
+	@Autowired(required = true)
 	private BlogService blogService;
-	
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-	    binder.registerCustomEditor(Set.class, "tags", new CommaDelimitedStringEditor(blogService));
+		binder.registerCustomEditor(Set.class, "tags",
+				new CommaDelimitedStringEditor(blogService));
 	}
-	
+
 	@RequestMapping("post/{id}")
 	@ResponseBody
 	public Post getPostById(@PathVariable long id) {
 		logger.debug("Received request to get PostById (json)");
-		
+
 		return blogService.findPostById(id);
 	}
 
@@ -58,10 +59,11 @@ public class PostController {
 
 		List<Post> listPost = blogService.findPosts();
 
-		PagedListHolder<Post> pagedPostList = blogService.getPagedList(listPost, "created", false);
+		PagedListHolder<Post> pagedPostList = blogService.getPagedList(
+				listPost, "created", false);
 		int page = ServletRequestUtils.getIntParameter(request, "p", 0);
 		pagedPostList.setPage(page);
-		
+
 		model.addAttribute("title", "Recent posts");
 		model.addAttribute("postList", pagedPostList);
 
@@ -79,30 +81,35 @@ public class PostController {
 
 		return "post-show";
 	}
-	
+
 	@RequestMapping(value = "/search.htm", method = RequestMethod.GET)
-	public String searchPosts(@RequestParam(value="title", required=false) String title, HttpServletRequest request, Model model) {
+	public String searchPosts(
+			@RequestParam(value = "title", required = false) String title,
+			HttpServletRequest request, Model model) {
 		logger.debug("Received request to post /search.htm, search " + title);
 
 		if (title == null) {
 			model.addAttribute("title", "Search");
-			
+
 			return "search";
 		} else {
 			List<Post> listPost = blogService.findPostsByTitle(title);
-			logger.debug("Received request to post /search.htm, return  " + listPost);
-			PagedListHolder<Post> pagedPostList = blogService.getPagedList(listPost, "created", false);
+			logger.debug("Received request to post /search.htm, return  "
+					+ listPost);
+			PagedListHolder<Post> pagedPostList = blogService.getPagedList(
+					listPost, "created", false);
 			int page = ServletRequestUtils.getIntParameter(request, "p", 0);
 			pagedPostList.setPage(page);
-			
-			model.addAttribute("title", "Showing results for posts with title " + title);
+
+			model.addAttribute("title", "Showing results for posts with title "
+					+ title);
 			model.addAttribute("searchString", title);
 			model.addAttribute("postList", pagedPostList);
-	
+
 			return "index";
 		}
 	}
-	
+
 	@RequestMapping(value = "/post/add.htm", method = RequestMethod.GET)
 	public String addPost(Model model) {
 		logger.debug("Received request to get post-add");
@@ -130,7 +137,7 @@ public class PostController {
 			}
 			status.setComplete();
 			redirectAttributes.addFlashAttribute("success", "Post saved!");
-	
+
 			return "redirect:/";
 		}
 	}
@@ -147,7 +154,7 @@ public class PostController {
 	}
 
 	@RequestMapping(value = "/post/{id}/delete.htm", method = RequestMethod.GET)
-	public String deletePost(Model model, @PathVariable long id, 
+	public String deletePost(Model model, @PathVariable long id,
 			SessionStatus status, HttpServletRequest request) {
 		logger.debug("Received request to delete post");
 
@@ -156,4 +163,5 @@ public class PostController {
 
 		return "redirect:/";
 	}
+
 }

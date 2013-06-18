@@ -19,8 +19,11 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 @Entity
@@ -29,6 +32,8 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 //		   @FetchProfile.FetchOverride(entity = Post.class, association = "tags", mode = FetchMode.JOIN)
 //		})
 @Table(name = "POST")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Post implements Timestampable, Serializable {
 
 	/**
@@ -58,11 +63,13 @@ public class Post implements Timestampable, Serializable {
 	private Date updated;
 	
 	@JsonManagedReference("post-comment")
+	@XmlElement(name="comment")
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 	@OrderBy("created")
 	private Set<Comment> comments;
 	
 	@JsonManagedReference("post-tag")
+	@XmlElement(name="tag")
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		      name="POST_TAG", 
@@ -118,6 +125,7 @@ public class Post implements Timestampable, Serializable {
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
 	}
+
 
 	public Set<Tag> getTags() {
 		return tags;

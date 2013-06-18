@@ -12,12 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name="TAG")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Tag implements Serializable {
 
 	/**
@@ -39,6 +43,7 @@ public class Tag implements Serializable {
 	
 	@JsonBackReference("post-tag")
 	@ManyToMany(mappedBy="tags")
+	@XmlTransient
 	private Set<Post> posts = new HashSet<Post>();
 
 	public long getId() {
